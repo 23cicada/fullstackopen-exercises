@@ -1,0 +1,6 @@
+{
+  "name": "fullstackopen-exercises",
+  "workspaces": [
+    "part1/courseinfo"
+  ]
+}
