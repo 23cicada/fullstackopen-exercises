@@ -15,6 +15,9 @@ const App = () => {
 
   const [selected, setSelected] = useState(0)
 
+  const mostVoteIndex = votes.reduce((current, vote, index, ary) =>
+    vote > ary[current] ? index : current, 0)
+
   const handleNextAnecdote = () => {
     setSelected(Math.floor(Math.random() * anecdotes.length))
   }
@@ -25,10 +28,17 @@ const App = () => {
 
   return (
     <>
+      <h1>Anecdote of the day</h1>
       <div>{anecdotes[selected]}</div>
       <div>has {votes[selected]} votes</div>
       <button onClick={handleVote}>vote</button>
       <button onClick={handleNextAnecdote}>next anecdote</button>
+      {votes[mostVoteIndex] > 0 && (
+        <>
+          <h1>Anecdote with most votes</h1>
+          <div>{anecdotes[mostVoteIndex]}</div>
+        </>
+      )}
     </>
   )
 }
