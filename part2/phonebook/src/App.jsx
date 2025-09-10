@@ -3,12 +3,17 @@ import Filter from "./Filter";
 import PersonForm from "./PersonForm";
 import Persons from "./Persons";
 import personService from "./services/persons";
+import Notification from "./Notification";
+import './index.css'
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filter, setFilter] = useState("");
+  const [notification, setNotification] = useState({
+    message: null
+  });
 
   useEffect(() => {
     personService.getAll().then(response => setPersons(response))
@@ -35,6 +40,7 @@ const App = () => {
     personService
       .create({ name: newName, number: newNumber })
       .then(response => {
+        notify(`Added ${response.name}`, 'success')
         setPersons(persons.concat(response))
         setNewName("");
         setNewNumber("");
@@ -44,8 +50,18 @@ const App = () => {
     if (window.confirm(`Delete ${person.name}?`)) {
       personService.deletePerson(person.id).then(() => {
         setPersons(persons.filter((p) => p.id !== person.id))
+      }).catch(error => {
+        if (error.status === 404) {
+          notify(`Information of ${person.name} has already been removed from server`, 'error')
+        }
       })
     }
+  }
+  const notify = (message, type) => {
+    setNotification({ message, type })
+    setTimeout(() => {
+      setNotification({ message: null })
+    }, 5000)
   }
   const handleNameChange = (event) => {
     setNewName(event.target.value);
@@ -62,6 +78,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notification.message} type={notification.type} />
       <Filter filter={filter} onFilterChange={handleFilterChange} />
       <h2>Numbers</h2>
       <PersonForm
