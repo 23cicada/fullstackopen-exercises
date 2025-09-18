@@ -1,4 +1,4 @@
-import {useEffect, useMemo, useState, useRef} from "react";
+import { useEffect, useMemo, useState } from "react";
 import CountryDetail from "./CountryDetail";
 import services from "./services/index.js";
 import useDebounce from './useDebounce.js'
@@ -10,11 +10,7 @@ const App = () => {
   const [value, setValue] = useState('')
   const [countries, setCountries] = useState(null)
   const [country, setCountry] = useState(null)
-  const [weather, setWeather] = useState({
-    loading: false, data: null
-  })
   const keyword = useDebounce(value, DEBOUNCE_DELAY)
-  const abortControllerRef = useRef(null);
 
   useEffect(() => {
     services.queryAllCountries().then(setCountries)
@@ -30,34 +26,8 @@ const App = () => {
   }, [keyword, countries])
 
   useEffect(() => {
-    if (filteredCountries.length === 1) {
-      handleCountrySelect(filteredCountries[0]);
-    } else {
-      setCountry(null);
-      setWeather({ loading: false, data: null });
-    }
+    setCountry(filteredCountries.length === 1 ? filteredCountries[0] : null);
   }, [filteredCountries]);
-
-  const handleCountrySelect = async country => {
-    if (abortControllerRef.current) {
-      abortControllerRef.current.abort();
-    }
-    abortControllerRef.current = new AbortController();
-    setCountry(country);
-    const { capitalInfo, latlng } = country;
-    let lat, lon
-    if (capitalInfo.latlng) {
-      [lat, lon] = capitalInfo.latlng
-    } else {
-      [lat, lon] = latlng
-    }
-    setWeather({ loading: true, data: null })
-    const result = await services.queryCountryWeather(
-      { lat, lon },
-      { signal: abortControllerRef.current.signal }
-    )
-    setWeather({ loading: false, data: result})
-  }
 
   const renderTooManyMatches = () => (
     <span>Too many matches, specify another filter</span>
@@ -67,7 +37,7 @@ const App = () => {
     countries.map(country => (
       <div key={country.name.common}>
         {country.name.common} {' '}
-        <button onClick={() => handleCountrySelect(country)}>
+        <button onClick={() => setCountry(country)}>
           Show
         </button>
       </div>
@@ -90,7 +60,7 @@ const App = () => {
         />
       </div>
       {
-        country ? <CountryDetail country={country} weather={weather}/>
+        country ? <CountryDetail country={country}/>
           : filteredCountries.length > MAX_DISPLAY_COUNT ? renderTooManyMatches()
             : renderCountryList(filteredCountries)
       }

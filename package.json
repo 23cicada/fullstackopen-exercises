@@ -5,6 +5,7 @@
     "part1/unicafe",
     "part1/anecdotes",
     "part2/courseinfo",
-    "part2/phonebook"
+    "part2/phonebook",
+    "part3/phonebook-backend"
   ]
 }
