@@ -26,8 +26,12 @@ let persons = [
 ]
 
 const app = express();
-app.use(express.json())
 morgan.token('body', req => JSON.stringify(req.body))
+
+app.use(express.json())
+// Whenever Express gets an HTTP GET request it will first check
+// if the dist directory contains a file corresponding to the request's address.
+app.use(express.static('dist'))
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
 app.get('/api/persons', (req, res) => {

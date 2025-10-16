@@ -1,5 +1,6 @@
 import axios from 'axios'
 
+// Because both the frontend and the backend are at the same address, declare baseUrl as a relative URL.
 const baseUrl = '/api/persons'
 
 // Single-responsibility principle
