@@ -1,11 +1,11 @@
 require('dotenv').config()
-const express = require('express');
+const express = require('express')
 const morgan = require('morgan')
 const Person = require('./models/person')
 
 const PORT = process.env.PORT || 3000
 
-const app = express();
+const app = express()
 morgan.token('body', req => JSON.stringify(req.body))
 
 app.use(express.json())
@@ -46,30 +46,22 @@ app.put('/api/persons/:id', async (req, res, next) => {
   const { id } = req.params
   const { number } = req.body
   try {
-    const person = await Person.findById(id)
-    if (person) {
-      person.number = number
-      const updated = await person.save()
-      return res.json({ name: updated.name, number: updated.number, id: updated._id.toString() })
-    } else {
-      return res.status(404).end()
-    }
+    const person = await Person.findByIdAndUpdate(id, { number }, { new: true, runValidators: true })
+    return res.json(person.toJSON())
   } catch (error) {
     next(error)
   }
 })
 
-app.post('/api/persons', (req, res) => {
+app.post('/api/persons', async (req, res, next) => {
   const { name, number } = req.body
-  if (!name || !number) {
-    return res.status(400).json({ error: 'name and number are required' })
+  try {
+    const person = new Person({ name, number })
+    const saved = await person.save()
+    res.json(saved.toJSON())
+  } catch (error) {
+    next(error)
   }
-  const created= { name, number }
-  const person = new Person(created)
-  person.save().then(saved => {
-    const { name, number, _id } = saved
-    res.json({ name, number, id: _id.toString() })
-  })
 })
 
 app.get('/info', async (req, res) => {
@@ -84,8 +76,12 @@ app.use((error, request, response, next) => {
   console.error(error.message)
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
+  } else if (error.name === 'ValidationError') {
+    return response.status(400).json({ error: error.message })
   }
   next(error)
 })
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+console.log('test' === 'test')
+
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`))

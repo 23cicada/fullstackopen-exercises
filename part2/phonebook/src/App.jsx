@@ -33,6 +33,8 @@ const App = () => {
           setPersons(persons.map(person => person.id !== response.id ? person : response))
           setNewName("");
           setNewNumber("");
+        }).catch(error => {
+          notify(error.response.data.error, 'error')
         })
       }
       return;
@@ -44,6 +46,9 @@ const App = () => {
         setPersons(persons.concat(response))
         setNewName("");
         setNewNumber("");
+      })
+      .catch(error => {
+        notify(error.response.data.error, 'error')
       })
   };
   const handleDelete = (person) => {
