@@ -12,7 +12,8 @@
     "deploy": "fly deploy",
     "deploy:full": "npm run build:ui && npm run deploy",
     "win:deploy:full": "npm run win:build:ui && npm run deploy",
-    "logs:prod": "fly logs"
+    "logs:prod": "fly logs",
+    "lint": "eslint ."
   },
   "author": "",
   "license": "ISC",
