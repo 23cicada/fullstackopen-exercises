@@ -1,0 +1,13 @@
+###
+GET http://localhost:3000/api/blogs
+
+###
+POST http://localhost:3000/api/blogs
+Content-Type: application/json
+
+{
+  "title": "title test",
+  "author": "cicada",
+  "url": "http:xxxxxx",
+  "likes": "0"
+}
