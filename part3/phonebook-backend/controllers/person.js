@@ -37,7 +37,7 @@ personRouter.delete('/:id', async (req, res, next) => {
   }
 })
 
-personRouter.put(':id', async (req, res, next) => {
+personRouter.put('/:id', async (req, res, next) => {
   const { id } = req.params
   const { number } = req.body
   try {
@@ -48,7 +48,7 @@ personRouter.put(':id', async (req, res, next) => {
   }
 })
 
-personRouter.post('/persons', async (req, res, next) => {
+personRouter.post('/', async (req, res, next) => {
   const { name, number } = req.body
   try {
     const person = new Person({ name, number })
