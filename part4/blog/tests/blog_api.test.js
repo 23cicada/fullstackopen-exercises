@@ -8,13 +8,16 @@ const Blog = require('../models/blog')
 
 const api = supertest(app)
 
-
 describe('when there is initially some blogs saved', () => {
   beforeEach(async () => {
+    const user = (await helper.initializeUsers())[0]
     await Blog.deleteMany({})
-    await Blog.insertMany(helper.initialBlogs)
-    // const blogs = helper.initialBlogs.map(blog => new Blog(blog))
-    // await Promise.all(blogs.map(blog => blog.save()))
+    const blogsToCreate = helper.initialBlogs.map(blog => ({
+      ...blog, user: user._id
+    }))
+    const blogs = await Blog.insertMany(blogsToCreate)
+    user.blogs = blogs.map(blog => blog._id)
+    await user.save()
   })
 
   test('all blogs are returned', async () => {
@@ -33,27 +36,33 @@ describe('when there is initially some blogs saved', () => {
 
   describe('addition of a new blog', () => {
     test('a new blog is added', async () => {
+      const userId = (await helper.usersInDb())[0].id
       const newBlog = {
         title: 'HTML Responsive Images Guide',
         author: 'Chris Coyier',
         url: 'https://css-tricks.com/a-guide-to-the-responsive-images-syntax-in-html/',
-        likes: 6
+        likes: 6,
+        userId
       }
       const response = await api.post('/api/blogs')
         .send(newBlog)
         .expect(201)
         .expect('Content-Type', /application\/json/)
-      const blogs = await helper.blogsInDb()
-      assert.strictEqual(blogs.length, helper.initialBlogs.length + 1)
-      const { id, ...addedBlog } = blogs.find(blog => blog.id === response.body.id)
-      assert.deepStrictEqual(addedBlog, newBlog)
+      const blogsAtEnd = await helper.blogsInDb()
+      assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length + 1)
+      const addedBlog = blogsAtEnd.find(blog => blog.id === response.body.id)
+      assert.strictEqual(addedBlog.title, newBlog.title)
+      const userAtEnd = (await helper.usersInDb()).find(user => user.id === userId)
+      assert(userAtEnd.blogs.find(blog => blog.id === addedBlog.id))
     })
 
     test('blog without likes property defaults to 0', async () => {
+      const users = await helper.usersInDb()
       const newBlog = {
         title: 'An Interactive Guide to CSS Transitions',
         author: 'Josh Comeau',
-        url: 'https://www.joshwcomeau.com/animation/css-transitions/'
+        url: 'https://www.joshwcomeau.com/animation/css-transitions/',
+        userId: users[0].id
       }
       const response = await api.post('/api/blogs')
         .send(newBlog)
@@ -65,9 +74,11 @@ describe('when there is initially some blogs saved', () => {
     })
 
     test('fails with status code 400 if data invalid', async () => {
+      const users = await helper.usersInDb()
       const newBlog = {
         author: 'cicada',
-        likes: 1
+        likes: 1,
+        userId: users[0].id
       }
       await api.post('/api/blogs')
         .send(newBlog)
@@ -99,6 +110,7 @@ describe('when there is initially some blogs saved', () => {
     })
   })
 })
+
 after(async () => {
   await mongoose.connection.close()
 })

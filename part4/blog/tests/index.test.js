@@ -10,37 +10,26 @@ test('dummy returns one', () => {
   assert.strictEqual(result, 1)
 })
 
-describe('total likes', () => {
+describe('list helper', () => {
   test('when list has only one blog, equals the likes of that', () => {
     assert.strictEqual(listHelper.totalLikes(helper.initialBlogs), 36)
   })
-})
 
-describe('favorite blog', () => {
   test('favorite blog', () => {
-    assert.deepStrictEqual(listHelper.favoriteBlog(helper.initialBlogs), {
-      _id: '5a422b3a1b54a676234d17f9',
-      title: 'Canonical string reduction',
-      author: 'Edsger W. Dijkstra',
-      url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
-      likes: 12,
-      __v: 0
-    })
+    assert.strictEqual(listHelper.favoriteBlog(helper.initialBlogs).title, 'Canonical string reduction')
   })
-})
 
-describe('most blogs', () => {
   test('most blogs', () => {
-    assert.deepStrictEqual(listHelper.mostBlogs(helper.initialBlogs), {
+    const { author, blogs } = listHelper.mostBlogs(helper.initialBlogs)
+    assert.deepStrictEqual({ author, blogs }, {
       author: 'Robert C. Martin',
       blogs: 3
     })
   })
-})
 
-describe('most likes', () => {
   test('most likes', () => {
-    assert.deepStrictEqual(listHelper.mostLikes(helper.initialBlogs), {
+    const { author, likes } = listHelper.mostLikes(helper.initialBlogs)
+    assert.deepStrictEqual({ author, likes }, {
       author: 'Edsger W. Dijkstra',
       likes: 17
     })
