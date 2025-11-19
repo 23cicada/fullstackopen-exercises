@@ -1,15 +1,17 @@
 const blogRouter = require('express').Router()
 const Blog = require('../models/blog')
 const User = require('../models/user')
+const jwt = require('jsonwebtoken')
+const middleware = require('../utils/middleware')
 
 blogRouter.get('/', async (request, response) => {
   const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 })
   response.json(blogs)
 })
 
-blogRouter.post('/', async (request, response) => {
-  const { userId, likes, ...rest } = request.body
-  const user = await User.findById(userId)
+blogRouter.post('/', middleware.userExtractor, async (request, response) => {
+  const { likes, ...rest } = request.body
+  const user = request.user
   if (!user) {
     return response.status(400).json({
       error: 'userId missing or not valid'
@@ -26,8 +28,12 @@ blogRouter.post('/', async (request, response) => {
   response.status(201).json(result)
 })
 
-blogRouter.delete('/:id', async (request, response) => {
-  await Blog.findByIdAndDelete(request.params.id)
+blogRouter.delete('/:id', middleware.userExtractor, async (request, response) => {
+  const blog = await Blog.findById(request.params.id)
+  if (blog.user?.toString() !== request.user.id) {
+    return response.status(403).json({ error: 'permission denied' })
+  }
+  await Blog.deleteOne({ _id: request.params.id })
   response.status(204).end()
 })
 

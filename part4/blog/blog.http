@@ -4,10 +4,38 @@ GET http://localhost:3000/api/blogs
 ###
 POST http://localhost:3000/api/blogs
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNpY2FkYTIzIiwiaWQiOiI2OTFkYjRhZThmNWVhZWQwYjZlNTRkMTgiLCJpYXQiOjE3NjM1NTYyMjIsImV4cCI6MTc2MzU1OTgyMn0.8oV0e5tLxt3MTFu-cM5GYDFxbq0xgxiO5aSbErP_JVY
 
 {
-  "title": "title test",
-  "author": "cicada",
-  "url": "http:xxxxxx",
-  "likes": "0"
+  "title": "hhh title test ",
+  "author": "tttt",
+  "url": "http:xxxxxx"
 }
+
+###
+POST http://localhost:3000/api/users
+Content-Type: application/json
+
+{
+  "username": "cicada23",
+  "name": "cicada",
+  "password": "qwe123abc"
+}
+
+###
+GET http://localhost:3000/api/users
+
+###
+POST http://localhost:3000/api/login
+Content-Type: application/json
+
+{
+  "username": "cicada23",
+  "password": "qwe123abc"
+}
+
+
+
+###
+DELETE http://localhost:3000/api/blogs/691dbbda3cd2e8cb33de2f12
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNpY2FkYTIzIiwiaWQiOiI2OTFkYjRhZThmNWVhZWQwYjZlNTRkMTgiLCJpYXQiOjE3NjM1NTcwNzcsImV4cCI6MTc2MzU2MDY3N30.IrfWOTJ1TiBAeQOAm1VCaWXxYOPNiHicO_jKfav8wXs
