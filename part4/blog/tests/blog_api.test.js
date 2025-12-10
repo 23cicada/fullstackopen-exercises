@@ -9,6 +9,7 @@ const Blog = require('../models/blog')
 const api = supertest(app)
 
 describe('when there is initially some blogs saved', () => {
+  let token
   beforeEach(async () => {
     const user = (await helper.initializeUsers())[0]
     await Blog.deleteMany({})
@@ -18,6 +19,11 @@ describe('when there is initially some blogs saved', () => {
     const blogs = await Blog.insertMany(blogsToCreate)
     user.blogs = blogs.map(blog => blog._id)
     await user.save()
+    const result = await api.post('/api/login').send({
+      username: helper.initialUsers[0].username,
+      password: helper.initialUsers[0].password
+    })
+    token = result.body.token
   })
 
   test('all blogs are returned', async () => {
@@ -45,6 +51,7 @@ describe('when there is initially some blogs saved', () => {
         userId
       }
       const response = await api.post('/api/blogs')
+        .set('Authorization', `Bearer ${token}`)
         .send(newBlog)
         .expect(201)
         .expect('Content-Type', /application\/json/)
@@ -65,6 +72,7 @@ describe('when there is initially some blogs saved', () => {
         userId: users[0].id
       }
       const response = await api.post('/api/blogs')
+        .set('Authorization', `Bearer ${token}`)
         .send(newBlog)
         .expect(201)
         .expect('Content-Type', /application\/json/)
@@ -81,6 +89,7 @@ describe('when there is initially some blogs saved', () => {
         userId: users[0].id
       }
       await api.post('/api/blogs')
+        .set('Authorization', `Bearer ${token}`)
         .send(newBlog)
         .expect(400)
       const blogs = await helper.blogsInDb()
@@ -92,7 +101,9 @@ describe('when there is initially some blogs saved', () => {
     test('succeeds with status code 204 if id is valid', async () => {
       const blogs = await helper.blogsInDb()
       const blogToDelete = blogs[0]
-      await api.delete(`/api/blogs/${blogToDelete.id}`).expect(204)
+      await api.delete(`/api/blogs/${blogToDelete.id}`)
+        .set('Authorization', `Bearer ${token}`)
+        .expect(204)
       const blogsAfterDeletion = await helper.blogsInDb()
       assert(blogsAfterDeletion.every(blog => blog.id !== blogToDelete.id))
       assert.strictEqual(blogsAfterDeletion.length, helper.initialBlogs.length - 1)
