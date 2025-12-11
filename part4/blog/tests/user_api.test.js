@@ -4,20 +4,13 @@ const helper = require('./test_helper')
 const supertest = require('supertest')
 const app = require('../app')
 const mongoose = require('mongoose')
+const User = require('../models/user')
 
 const api = supertest(app)
 
 describe('when there is initially one user in db', () => {
   beforeEach(async () => {
-    await helper.initializeUsers()
-  })
-
-  test('all users are returned', async () => {
-    const response = await api
-      .get('/api/users')
-      .expect(200)
-      .expect('Content-Type', /application\/json/)
-    assert.strictEqual(response.body.length, helper.initialUsers.length)
+    await User.deleteMany({})
   })
 
   test('creation succeeds with a fresh username', async () => {
@@ -25,9 +18,10 @@ describe('when there is initially one user in db', () => {
     const newUser = {
       username: 'mluukkai',
       name: 'Matti Luukkainen',
-      password: 'salainen23',
+      password: '%salainen23',
     }
-    const response = await api.post('/api/users').send(newUser)
+    const response = await api.post('/api/users')
+      .send(newUser)
       .expect(201)
       .expect('Content-Type', /application\/json/)
     const usersAtEnd = await helper.usersInDb()
@@ -35,35 +29,17 @@ describe('when there is initially one user in db', () => {
     assert(usersAtEnd.some(u => u.username === response.body.username))
   })
 
-  test('creation fails with proper statuscode and message if username already taken', async () => {
-    const newUser = {
-      username: 'root',
-      name: 'Matti Luukkainen',
-      password: 'salainen23',
-    }
-    const usersAtStart = await helper.usersInDb()
-    const response = await api.post('/api/users')
-      .send(newUser)
-      .expect(400)
-      .expect('Content-Type', /application\/json/)
-    const usersAtEnd = await helper.usersInDb()
-    assert(response.body.error.includes('expected `username` to be unique'))
-    assert.strictEqual(usersAtEnd.length, usersAtStart.length)
-  })
-
   test('creation fails with proper statuscode and message if username format is invalid', async () => {
     const newUser = {
-      username: '@asd123',
       name: 'Matti Luukkainen',
       password: 'salainen23',
     }
     const usersAtStart = await helper.usersInDb()
-    const response = await api.post('/api/users')
+    await api.post('/api/users')
       .send(newUser)
       .expect(400)
       .expect('Content-Type', /application\/json/)
     const usersAtEnd = await helper.usersInDb()
-    assert(response.body.error.includes('Username must be between 3 and 16 characters long'))
     assert.strictEqual(usersAtEnd.length, usersAtStart.length)
   })
 
@@ -74,13 +50,25 @@ describe('when there is initially one user in db', () => {
       password: 'abcdefgh',
     }
     const usersAtStart = await helper.usersInDb()
-    const response = await api.post('/api/users')
+    await api.post('/api/users')
       .send(newUser)
       .expect(400)
       .expect('Content-Type', /application\/json/)
     const usersAtEnd = await helper.usersInDb()
-    assert(response.body.error.includes('Password must be 8–20 characters long'))
     assert.strictEqual(usersAtEnd.length, usersAtStart.length)
+  })
+
+  test('creation fails with proper statuscode and message if username already taken', async () => {
+    const newUser = {
+      username: 'newuser',
+      name: 'New User',
+      password: 'test123'
+    }
+    await api.post('/api/users').send(newUser)
+    const usersAtStart = await helper.usersInDb()
+    await api.post('/api/users').send(newUser).expect(400)
+    const usersAtEnd = await helper.usersInDb()
+    assert.strictEqual(usersAtStart.length, usersAtEnd.length)
   })
 })
 

@@ -1,6 +1,5 @@
 const Blog = require('../models/blog')
 const User = require('../models/user')
-const bcrypt = require('bcrypt')
 
 const initialBlogs = [
   {
@@ -41,18 +40,11 @@ const initialBlogs = [
   }
 ]
 
-const initialUsers = [
-  {
-    username: 'root',
-    name: 'Matti Luukkainen',
-    password: 'salainen23',
-  },
-  {
-    username: 'visitor',
-    name: 'Chloe Reed',
-    password: 'salainen88',
-  }
-]
+const initialUser = {
+  username: 'root_cicada',
+  name: 'Cicada',
+  password: 'admin_cicada123'
+}
 const blogsInDb = async () => {
   const notes = await Blog.find({}).populate('user', { username: 1, name: 1 })
   return notes.map(note => note.toJSON())
@@ -63,21 +55,9 @@ const usersInDb = async () => {
   return users.map(user => user.toJSON())
 }
 
-const initializeUsers = async () => {
-  await User.deleteMany({})
-  const usersToCreate = []
-  for (const user of initialUsers) {
-    usersToCreate.push({
-      ...user,
-      passwordHash: await bcrypt.hash(user.password, 10)
-    })
-  }
-  return await User.insertMany(usersToCreate)
-}
 module.exports = {
   initialBlogs,
   blogsInDb,
   usersInDb,
-  initializeUsers,
-  initialUsers
+  initialUser
 }

@@ -2,13 +2,13 @@ const userRouter = require('express').Router()
 const bcrypt = require('bcrypt')
 const User = require('../models/user')
 
-const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{8,20}$/
+const passwordRegex = /^(?=.*?[A-Za-z])(?=.*?[0-9])(?=.*?[^A-Za-z0-9]).{8,}$/
 userRouter.post('/', async (req, res) => {
   const { username, name, password } = req.body
   const saltRounds = 10
   if (passwordRegex.test(password) === false) {
     return res.status(400).json({
-      error: 'Password must be 8–20 characters long and include at least one letter and one number.'
+      error: 'Password must be at least 8 characters long and include a letter, a number, and a special character.'
     })
   }
   const passwordHash = await bcrypt.hash(password, saltRounds)
@@ -22,7 +22,12 @@ userRouter.post('/', async (req, res) => {
 })
 
 userRouter.get('/', async (req, res) => {
-  const users = await User.find({}).populate('blogs')
+  const users = await User.find({}).populate('blogs', {
+    title: 1,
+    author: 1,
+    url: 1,
+    id: 1
+  })
   res.json(users)
 })
 module.exports = userRouter
