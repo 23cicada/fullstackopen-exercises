@@ -8,7 +8,7 @@ const App = () => {
   const [blogs, setBlogs] = useState([]);
 
   useEffect(() => {
-    const user = localStorage.getItem('user');
+    const user = localStorage.getItem("user");
     if (user) {
       setUser(JSON.parse(user));
     }
@@ -21,13 +21,24 @@ const App = () => {
     const password = event.target.password.value;
     const user = await loginService.login({ username, password });
     setUser(user);
-    localStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem("user", JSON.stringify(user));
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('user');
+    localStorage.removeItem("user");
     setUser(null);
-  }
+  };
+
+  const handleCreateBlog = async (event) => {
+    event.preventDefault();
+    const title = event.target.title.value;
+    const author = event.target.author.value;
+    const url = event.target.url.value;
+    const blog = await blogService.create({ title, author, url });
+    setBlogs([...blogs, blog]);
+  };
+
+  console.log('blogs', blogs)
 
   return (
     <div>
@@ -38,19 +49,44 @@ const App = () => {
             {user.name} logged in
             <button onClick={handleLogout}>Logout</button>
           </div>
-          {blogs.filter(blog => blog.user.id === user.id).map((blog) => (
-            <Blog key={blog.id} blog={blog} />
-          ))}
+          <h2>create new</h2>
+          <form onSubmit={handleCreateBlog}>
+            <div>
+              <label>
+                Title: <input type="text" name="title" />
+              </label>
+            </div>
+            <div>
+              <label>
+                Author: <input type="text" name="author" />
+              </label>
+            </div>
+            <div>
+              <label>
+                Url: <input type="text" name="url" />
+              </label>
+            </div>
+            <button type="submit">Create</button>
+          </form>
+          {blogs
+            .filter((blog) => blog.user.id === user.id)
+            .map((blog) => (
+              <Blog key={blog.id} blog={blog} />
+            ))}
         </>
       ) : (
         <>
           <h2>Log in to application</h2>
           <form onSubmit={handleLogin}>
             <div>
-              <label>Username: <input type="text" name="username" /></label>
+              <label>
+                Username: <input type="text" name="username" />
+              </label>
             </div>
             <div>
-              <label>Password: <input type="password" name="password" /></label>
+              <label>
+                Password: <input type="password" name="password" />
+              </label>
             </div>
             <button type="submit">Login</button>
           </form>
