@@ -6,12 +6,14 @@ const app = require('../app')
 const helper = require('./test_helper')
 const Blog = require('../models/blog')
 const User = require('../models/user')
+const config = require('../utils/config')
 
 const api = supertest(app)
 
 describe('when there is initially some blogs saved', () => {
   let token, userId
   before(async () => {
+    await mongoose.connect(config.MONGODB_URI)
     await User.deleteMany({})
     let response = await api.post('/api/users').send(helper.initialUser)
     userId = response.body.id
@@ -144,9 +146,9 @@ describe('when there is initially some blogs saved', () => {
       assert.strictEqual(updatedBlog.likes, editedBlog.likes)
     })
   })
+})
 
-  after(async () => {
-    await mongoose.connection.close()
-  })
+after(async () => {
+  await mongoose.connection.close()
 })
 
