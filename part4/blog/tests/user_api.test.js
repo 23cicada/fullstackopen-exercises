@@ -10,8 +10,12 @@ const config = require('../utils/config')
 const api = supertest(app)
 
 describe('when there is initially one user in db', () => {
-  beforeEach(async () => {
+
+  before(async () => {
     await mongoose.connect(config.MONGODB_URI)
+  })
+
+  beforeEach(async () => {
     await User.deleteMany({})
   })
 
