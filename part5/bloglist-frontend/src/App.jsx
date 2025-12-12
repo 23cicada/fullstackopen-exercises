@@ -2,10 +2,15 @@ import { useState, useEffect } from "react";
 import Blog from "./components/Blog";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
+import "./index.css";
 
 const App = () => {
   const [user, setUser] = useState(null);
   const [blogs, setBlogs] = useState([]);
+  const [notification, setNotification] = useState({
+    message: null,
+    type: null,
+  });
 
   useEffect(() => {
     const user = localStorage.getItem("user");
@@ -19,9 +24,13 @@ const App = () => {
     event.preventDefault();
     const username = event.target.username.value;
     const password = event.target.password.value;
-    const user = await loginService.login({ username, password });
-    setUser(user);
-    localStorage.setItem("user", JSON.stringify(user));
+    try {
+      const user = await loginService.login({ username, password });
+      setUser(user);
+      localStorage.setItem("user", JSON.stringify(user));
+    } catch (error) {
+      notify(error.response.data.error, "error");
+    }
   };
 
   const handleLogout = () => {
@@ -34,14 +43,29 @@ const App = () => {
     const title = event.target.title.value;
     const author = event.target.author.value;
     const url = event.target.url.value;
-    const blog = await blogService.create({ title, author, url });
-    setBlogs([...blogs, blog]);
+    try {
+      const blog = await blogService.create({ title, author, url });
+      setBlogs([...blogs, blog]);
+      notify("Blog created successfully");
+    } catch (error) {
+      notify(error.response.data.error, "error");
+    }
   };
 
-  console.log('blogs', blogs)
+  const notify = (message, type = "success") => {
+    setNotification({ message, type });
+    setTimeout(() => {
+      setNotification({ message: null, type: null });
+    }, 3000);
+  };
 
   return (
     <div>
+      {notification.message && (
+        <div className='notification' style={{ color: notification.type === "error" ? "red" : "green" }}>
+          {notification.message}
+        </div>
+      )}
       {user ? (
         <>
           <h2>blogs</h2>
