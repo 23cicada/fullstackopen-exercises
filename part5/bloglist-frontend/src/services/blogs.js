@@ -2,12 +2,12 @@ import axios from 'axios'
 const baseUrl = '/api/blogs'
 
 axios.interceptors.request.use(function (config) {
-  const user = localStorage.getItem('user');
+  const user = localStorage.getItem('user')
   if (user) {
-    config.headers.Authorization = `Bearer ${JSON.parse(user).token}`;
+    config.headers.Authorization = `Bearer ${JSON.parse(user).token}`
   }
-  return config;
-});
+  return config
+})
 
 const getAll = () => {
   const request = axios.get(baseUrl)
@@ -19,4 +19,14 @@ const create = ({ title, author, url }) => {
   return request.then(response => response.data)
 }
 
-export default { getAll, create }
+const update = (blog) => {
+  const request = axios.put(`${baseUrl}/${blog.id}`, blog)
+  return request.then(response => response.data)
+}
+
+const remove = (id) => {
+  const request = axios.delete(`${baseUrl}/${id}`)
+  return request.then(response => response.data)
+}
+
+export default { getAll, create, update, remove }
