@@ -8,6 +8,7 @@
     "part2/phonebook",
     "part3/phonebook-backend",
     "part4/blog",
-    "part5/bloglist-frontend"
+    "part5/bloglist-frontend",
+    "part5/end-to-end"
   ]
 }
