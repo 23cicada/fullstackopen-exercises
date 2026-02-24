@@ -102,10 +102,10 @@ const App = () => {
             <BlogForm onSubmit={handleCreateBlog} />
           </Togglable>
           {blogs
-            .filter((blog) => blog.user.id === user.id)
             .sort((a, b) => b.likes - a.likes)
             .map((blog) => (
               <Blog
+                showRemoveButton={blog.user.id === user.id}
                 onRemove={handleRemoveBlog}
                 onUpdate={handleUpdateBlog}
                 key={blog.id}
