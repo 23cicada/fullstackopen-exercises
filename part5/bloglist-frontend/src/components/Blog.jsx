@@ -15,7 +15,7 @@ const Blog = ({ blog, onUpdate, onRemove, showRemoveButton }) => {
   }
 
   return (
-    <div style={blogStyle}>
+    <div style={blogStyle} data-testid="blog">
       <div>
         {blog.title}
         {blog.author}

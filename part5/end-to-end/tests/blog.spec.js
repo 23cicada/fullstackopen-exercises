@@ -3,22 +3,22 @@ const { loginWith, createBlog } = require('./test_helper')
 
 describe('Blog app', () => {
   beforeEach(async ({ page, request }) => {
-    await request.post('http://localhost:5173/api/testing/reset')
-    await request.post('http://localhost:5173/api/users', {
+    await request.post('/api/testing/reset')
+    await request.post('/api/users', {
       data: {
         name: 'root',
         username: 'root',
         password: 'root_001',
       },
     })
-    await request.post('http://localhost:5173/api/users', {
+    await request.post('/api/users', {
       data: {
         name: 'root2',
         username: 'root2',
         password: 'root_002',
       },
     })
-    await page.goto('http://localhost:5173')
+    await page.goto('/')
   })
 
   test('Login form is shown', async ({ page }) => {
@@ -74,7 +74,33 @@ describe('Blog app', () => {
       await expect(page.getByText('title_root1').locator("..").getByRole('button', { name: 'remove' })).toBeHidden();
     })
 
-    test("blogs are arranged in the order according to the likes", async ({ page }) => {
+    test.only("blogs are arranged in the order according to the likes", async ({ page }) => {
+      await createBlog(page, 'title_1', 'author_1', 'url_1');
+      for (let i = 2; i < 4; i++) {
+        await page.getByRole('textbox', { name: 'Title:' }).fill(`title_${i}`);
+        await page.getByRole('textbox', { name: 'Author:' }).fill(`author_${i}`);
+        await page.getByRole('textbox', { name: 'Url:' }).fill(`url_${i}`);
+        await page.getByRole('button', { name: 'create' }).click();
+        await page.getByText(`title_${i}`).waitFor()
+      }
+
+      const blog1 = page.getByText("title_1")
+      const blog2 = page.getByText("title_2")
+      const blog3 = page.getByText("title_3")
+
+      await blog1.getByRole('button', { name: 'view' }).click();
+      await blog2.getByRole('button', { name: 'view' }).click();
+      await blog3.getByRole('button', { name: 'view' }).click();
+
+      await blog2.locator("..").getByRole('button', { name: 'like' }).click();
+
+      await blog3.locator("..").getByRole('button', { name: 'like' }).click();
+      await blog3.locator("..").getByRole('button', { name: 'like' }).click();
+
+      const blogs = page.getByTestId('blog')
+      await expect(blogs.nth(0)).toContainText('title_3');
+      await expect(blogs.nth(1)).toContainText('title_2');
+      await expect(blogs.nth(2)).toContainText('title_1');
     })
   })
 })
