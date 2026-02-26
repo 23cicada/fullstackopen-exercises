@@ -74,7 +74,7 @@ describe('Blog app', () => {
       await expect(page.getByText('title_root1').locator("..").getByRole('button', { name: 'remove' })).toBeHidden();
     })
 
-    test.only("blogs are arranged in the order according to the likes", async ({ page }) => {
+    test("blogs are arranged in the order according to the likes", async ({ page }) => {
       await createBlog(page, 'title_1', 'author_1', 'url_1');
       for (let i = 2; i < 4; i++) {
         await page.getByRole('textbox', { name: 'Title:' }).fill(`title_${i}`);
@@ -93,11 +93,15 @@ describe('Blog app', () => {
       await blog3.getByRole('button', { name: 'view' }).click();
 
       await blog2.locator("..").getByRole('button', { name: 'like' }).click();
+      await blog2.locator("..").getByText("likes 1").waitFor()
 
       await blog3.locator("..").getByRole('button', { name: 'like' }).click();
+      await blog3.locator("..").getByText("likes 1").waitFor()
       await blog3.locator("..").getByRole('button', { name: 'like' }).click();
+      await blog3.locator("..").getByText("likes 2").waitFor()
 
       const blogs = page.getByTestId('blog')
+      // await page.pause()
       await expect(blogs.nth(0)).toContainText('title_3');
       await expect(blogs.nth(1)).toContainText('title_2');
       await expect(blogs.nth(2)).toContainText('title_1');
