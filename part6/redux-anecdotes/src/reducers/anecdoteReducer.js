@@ -1,41 +1,55 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import services from '../services/anecdotes'
 
-const anecdotesAtStart = [
-  'If it hurts, do it more often',
-  'Adding manpower to a late software project makes it later!',
-  'The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
-  'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
-  'Premature optimization is the root of all evil.',
-  'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
-]
+export const fetchAnecdotes = createAsyncThunk(
+  'anecdotes/fetchAnecdotes',
+  async () => await services.getAnecdotes()
+)
 
-const getId = () => (100000 * Math.random()).toFixed(0)
+export const createAnecdote = createAsyncThunk(
+  'anecdotes/createAnecdote',
+  async content => await services.createAnecdote({ content, votes: 0 })
+)
 
-const asObject = anecdote => {
-  return {
-    content: anecdote,
-    id: getId(),
-    votes: 0
+export const voteAnecdote = createAsyncThunk(
+  'anecdotes/voteAnecdote',
+  async (id, thunkAPI) => {
+    const anecdotes = thunkAPI.getState().anecdotes
+    const anecdote = anecdotes.find(anecdote => anecdote.id === id)
+    return await services.updateAnecdote({ ...anecdote, votes: anecdote.votes + 1 })
   }
-}
-
-const initialState = anecdotesAtStart.map(asObject)
+)
 
 const slice = createSlice({
-  name: "anecdote",
-  initialState,
+  name: "anecdotes",
+  initialState: [],
   reducers: {
-    create(state, action) {
-      state.push(asObject(action.payload))
-    },
-    vote(state, action) {
-      const anecdote = state.find(anecdote => anecdote.id === action.payload.id)
-      anecdote.votes += 1
-    }
+    // create(state, action) {
+    //   state.push(action.payload)
+    // },
+    // vote(state, action) {
+    //   const anecdote = state.find(anecdote => anecdote.id === action.payload.id)
+    //   anecdote.votes += 1
+    // },
+    // set(_, action) {
+    //   return action.payload
+    // }
+  },
+  extraReducers: builder => {
+    builder.addCase(fetchAnecdotes.fulfilled, (_, action) => {
+      return action.payload
+    })
+    builder.addCase(createAnecdote.fulfilled, (state, action) => {
+      state.push(action.payload)
+    })
+    builder.addCase(voteAnecdote.fulfilled, (state, action) => {
+      const index = state.findIndex(anecdote => anecdote.id === action.payload.id)
+      state[index] = action.payload
+    })
   }
 })
 
-export const { create, vote } = slice.actions
+// export const { vote, create, set } = slice.actions
 export default slice.reducer
 
 // const reducer = (state = initialState, action) => {

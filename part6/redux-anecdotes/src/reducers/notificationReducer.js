@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { vote } from './anecdoteReducer'
+
+
 
 const slice = createSlice({
   name: "notification",
@@ -11,13 +12,19 @@ const slice = createSlice({
     removeNotification() {
       return ""
     }
-  },
-  extraReducers: builder => {
-    builder.addCase(vote, (_, action) => {
-      return `You voted '${action.payload.content}'`
-    })
   }
 })
 
-export const { setNotification, removeNotification } = slice.actions
+let timeoutId = null
+
+export const setNotification = (content, seconds) => {
+  return dispatch => {
+    dispatch(slice.actions.setNotification(content))
+    clearTimeout(timeoutId)
+    timeoutId = setTimeout(() => {
+      dispatch(slice.actions.removeNotification())
+    }, seconds * 1000)
+  }
+}
+
 export default slice.reducer
