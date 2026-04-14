@@ -1,4 +1,4 @@
-import { useAnecdoteActions } from '../store'
+import { useAnecdoteActions } from '../stores'
 
 const AnecdoteForm = () => {
   const { create } = useAnecdoteActions()
