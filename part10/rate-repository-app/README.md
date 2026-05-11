@@ -8,7 +8,7 @@ npx create-expo-app rate-repository-app --template blank@sdk-55
 npx expo install react-native-web react-dom @expo/metro-runtime
 ```
 
-## ESLint
+## Setting up the ESLint
 
 ```bash
 npx expo install react-native-web react-dom @expo/metro-runtime
