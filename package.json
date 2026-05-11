@@ -10,6 +10,9 @@
     "part4/blog",
     "part5/bloglist-frontend",
     "part5/end-to-end",
+    "part6/unicafe-redux",
+    "part6/redux-anecdotes",
+    "part6-zustand/unicafe-zustand",
     "part10/rate-repository-app"
   ]
 }
