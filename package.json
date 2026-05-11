@@ -9,6 +9,7 @@
     "part3/phonebook-backend",
     "part4/blog",
     "part5/bloglist-frontend",
-    "part5/end-to-end"
+    "part5/end-to-end",
+    "part10/rate-repository-app"
   ]
 }
