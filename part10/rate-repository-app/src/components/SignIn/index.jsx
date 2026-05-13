@@ -36,22 +36,14 @@ const styles = StyleSheet.create({
   },
 });
 
-const SignIn = () => {
-  const [signIn] = useSignIn();
+export const SignInForm = ({ onSubmit }) => {
   const formik = useFormik({
     initialValues: {
       username: "",
       password: "",
     },
     validationSchema,
-    onSubmit: async (values) => {
-      const { username, password } = values;
-      try {
-        await signIn({ username, password });
-      } catch (error) {
-        console.log(error);
-      }
-    },
+    onSubmit: onSubmit,
   });
   return (
     <View style={styles.container}>
@@ -87,6 +79,20 @@ const SignIn = () => {
       </Pressable>
     </View>
   );
+};
+
+const SignIn = () => {
+  const [signIn] = useSignIn();
+
+  const handleSubmit = async (values) => {
+    const { username, password } = values;
+    try {
+      await signIn({ username, password });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  return <SignInForm onSubmit={handleSubmit} />;
 };
 
 export default SignIn;

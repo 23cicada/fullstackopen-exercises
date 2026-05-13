@@ -1,5 +1,6 @@
 import { View, StyleSheet } from "react-native";
 import Text from "../Text";
+import { formatCount } from "../../utils";
 
 const styles = StyleSheet.create({
   container: {
@@ -8,20 +9,6 @@ const styles = StyleSheet.create({
     columnGap: 10,
   },
 });
-
-const formatCount = (value) => {
-  const numberValue = Number(value);
-
-  if (Number.isNaN(numberValue)) {
-    return value;
-  }
-
-  if (numberValue >= 1000) {
-    return `${(numberValue / 1000).toFixed(1)}k`;
-  }
-
-  return String(numberValue);
-};
 
 const StatItem = ({ label, value }) => {
   return (
