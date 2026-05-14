@@ -26,15 +26,22 @@ const AppBar = () => {
           </Text>
         </Link>
         {isSigned ? (
-          <Pressable onPress={signOut}>
-            <Text color="white" fontWeight="bold">
-              Sign Out
-            </Text>
-          </Pressable>
+          <>
+            <Link to="/review">
+              <Text color="white" fontWeight="bold">
+                Create a review
+              </Text>
+            </Link>
+            <Pressable onPress={signOut}>
+              <Text color="white" fontWeight="bold">
+                Sign out
+              </Text>
+            </Pressable>
+          </>
         ) : (
           <Link to="/signin">
             <Text color="white" fontWeight="bold">
-              Sign In
+              Sign in
             </Text>
           </Link>
         )}

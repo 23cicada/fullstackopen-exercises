@@ -1,6 +1,6 @@
 import { View, Image, StyleSheet } from "react-native";
-import Text from "../Text";
-import theme from "../../theme";
+import Text from "./Text";
+import theme from "../theme";
 import StatItem from "./StatItem";
 
 const styles = StyleSheet.create({
@@ -50,6 +50,7 @@ const RepositoryItem = (props) => {
     ratingAverage,
     reviewCount,
     ownerAvatarUrl,
+    children,
   } = props;
   return (
     <View style={styles.container} testID="repositoryItem">
@@ -67,6 +68,7 @@ const RepositoryItem = (props) => {
         <StatItem label="Reviews" value={reviewCount} />
         <StatItem label="Rating" value={ratingAverage} />
       </View>
+      {children}
     </View>
   );
 };
