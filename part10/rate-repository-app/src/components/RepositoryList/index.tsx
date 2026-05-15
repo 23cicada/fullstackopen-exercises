@@ -1,18 +1,18 @@
-import { FlatList } from "react-native";
-import RepositoryItem from "../RepositoryItem";
-import useRepositories from "../../hooks/useRepositories";
-import { Link } from "react-router-native";
-import ItemSeparator from "../ItemSeparator";
-import { RepositoriesQuery } from "@/types";
+import { FlatList } from "react-native"
+import RepositoryItem from "../RepositoryItem"
+import useRepositories from "../../hooks/useRepositories"
+import { Link } from "react-router-native"
+import ItemSeparator from "../ItemSeparator"
+import { RepositoriesQuery } from "@/types"
 
 export const RepositoryListContainer = ({
   repositories,
 }: {
-  repositories?: RepositoriesQuery["repositories"];
+  repositories?: RepositoriesQuery["repositories"]
 }) => {
   const repositoryNodes = repositories
     ? repositories.edges.map((edge) => edge.node)
-    : [];
+    : []
 
   return (
     <FlatList
@@ -24,13 +24,13 @@ export const RepositoryListContainer = ({
         </Link>
       )}
     />
-  );
-};
+  )
+}
 
 const RepositoryList = () => {
-  const { repositories } = useRepositories();
+  const { repositories } = useRepositories()
 
-  return <RepositoryListContainer repositories={repositories} />;
-};
+  return <RepositoryListContainer repositories={repositories} />
+}
 
-export default RepositoryList;
+export default RepositoryList

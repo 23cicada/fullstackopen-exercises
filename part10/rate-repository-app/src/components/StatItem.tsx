@@ -1,6 +1,6 @@
-import { View, StyleSheet } from "react-native";
-import Text from "./Text";
-import { formatCount } from "../utils";
+import { View, StyleSheet } from "react-native"
+import Text from "./Text"
+import { formatCount } from "../utils"
 
 const styles = StyleSheet.create({
   container: {
@@ -8,11 +8,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     columnGap: 10,
   },
-});
+})
 
 interface StatItemProps {
-  label: string;
-  value: number;
+  label: string
+  value: number
 }
 
 const StatItem = ({ label, value }: StatItemProps) => {
@@ -21,7 +21,7 @@ const StatItem = ({ label, value }: StatItemProps) => {
       <Text fontWeight="bold">{formatCount(value)}</Text>
       <Text color="textSecondary">{label}</Text>
     </View>
-  );
-};
+  )
+}
 
-export default StatItem;
+export default StatItem

@@ -1,4 +1,4 @@
-import { gql, TypedDocumentNode } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client"
 import {
   AuthenticateMutation,
   AuthenticateMutationVariables,
@@ -6,7 +6,7 @@ import {
   CreateReviewMutationVariables,
   CreateUserMutation,
   CreateUserMutationVariables,
-} from "@/types";
+} from "@/types"
 
 export const AUTHENTICATE: TypedDocumentNode<
   AuthenticateMutation,
@@ -21,7 +21,7 @@ export const AUTHENTICATE: TypedDocumentNode<
       }
     }
   }
-`;
+`
 
 export const CREATE_REVIEW: TypedDocumentNode<
   CreateReviewMutation,
@@ -32,7 +32,7 @@ export const CREATE_REVIEW: TypedDocumentNode<
       repositoryId
     }
   }
-`;
+`
 
 export const CREATE_USER: TypedDocumentNode<
   CreateUserMutation,
@@ -43,4 +43,4 @@ export const CREATE_USER: TypedDocumentNode<
       username
     }
   }
-`;
+`

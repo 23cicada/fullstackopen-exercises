@@ -1,11 +1,11 @@
-import { CREATE_REVIEW } from "../graphql/mutations";
-import { useMutation } from "@apollo/client/react";
-import { useNavigate } from "react-router-native";
-import { ReviewFormValues } from "@/types";
+import { CREATE_REVIEW } from "../graphql/mutations"
+import { useMutation } from "@apollo/client/react"
+import { useNavigate } from "react-router-native"
+import { ReviewFormValues } from "@/types"
 
 const useReview = () => {
-  const [mutate, result] = useMutation(CREATE_REVIEW);
-  const navigate = useNavigate();
+  const [mutate, result] = useMutation(CREATE_REVIEW)
+  const navigate = useNavigate()
 
   const createReview = async ({
     rating,
@@ -22,13 +22,13 @@ const useReview = () => {
           ownerName,
         },
       },
-    });
+    })
     if (data?.createReview) {
-      navigate(`/repository/${data.createReview.repositoryId}`);
+      navigate(`/repository/${data.createReview.repositoryId}`)
     }
-  };
+  }
 
-  return { createReview, result };
-};
+  return { createReview, result }
+}
 
-export default useReview;
+export default useReview

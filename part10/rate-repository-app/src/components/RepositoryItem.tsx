@@ -1,8 +1,8 @@
-import { View, Image, StyleSheet } from "react-native";
-import Text from "./Text";
-import theme from "../theme";
-import StatItem from "./StatItem";
-import { RepositoryQuery, RepositoriesQuery } from "@/types";
+import { View, Image, StyleSheet } from "react-native"
+import Text from "./Text"
+import theme from "../theme"
+import StatItem from "./StatItem"
+import { RepositoryQuery, RepositoriesQuery } from "@/types"
 
 const styles = StyleSheet.create({
   avatar: {
@@ -39,13 +39,13 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
     borderRadius: 4,
   },
-});
+})
 
 type RepositoryEntity =
   | NonNullable<RepositoryQuery["repository"]>
-  | NonNullable<RepositoriesQuery["repositories"]>["edges"][number]["node"];
+  | NonNullable<RepositoriesQuery["repositories"]>["edges"][number]["node"]
 
-type RepositoryItemProps = RepositoryEntity & { children?: React.ReactNode };
+type RepositoryItemProps = RepositoryEntity & { children?: React.ReactNode }
 
 const RepositoryItem = (props: RepositoryItemProps) => {
   const {
@@ -58,7 +58,7 @@ const RepositoryItem = (props: RepositoryItemProps) => {
     reviewCount,
     ownerAvatarUrl,
     children,
-  } = props;
+  } = props
   return (
     <View style={styles.container} testID="repositoryItem">
       <View style={styles.infoContainer}>
@@ -77,7 +77,7 @@ const RepositoryItem = (props: RepositoryItemProps) => {
       </View>
       {children}
     </View>
-  );
-};
+  )
+}
 
-export default RepositoryItem;
+export default RepositoryItem

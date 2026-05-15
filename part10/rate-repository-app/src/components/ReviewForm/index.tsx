@@ -1,12 +1,12 @@
-import { View, StyleSheet } from "react-native";
-import theme from "../../theme";
-import * as yup from "yup";
-import { useFormik } from "formik";
-import TextInput from "../TextInput";
-import Button from "../Button";
-import useReview from "../../hooks/useReview";
-import Text from "../Text";
-import { ReviewFormValues } from "@/types";
+import { View, StyleSheet } from "react-native"
+import theme from "../../theme"
+import * as yup from "yup"
+import { useFormik } from "formik"
+import TextInput from "../TextInput"
+import Button from "../Button"
+import useReview from "../../hooks/useReview"
+import Text from "../Text"
+import { ReviewFormValues } from "@/types"
 
 const validationSchema = yup.object().shape({
   ownerName: yup.string().required("Repository owner name is required"),
@@ -18,7 +18,7 @@ const validationSchema = yup.object().shape({
     .integer("Rating must be an integer")
     .min(0, "Rating must be greater than 0")
     .max(100, "Rating must be less than 100"),
-});
+})
 
 const styles = StyleSheet.create({
   container: {
@@ -26,11 +26,11 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.white,
     rowGap: 20,
   },
-});
+})
 
 const ReviewForm = () => {
-  const { createReview, result } = useReview();
-  const error = result.error?.message;
+  const { createReview, result } = useReview()
+  const error = result.error?.message
   const formik = useFormik<ReviewFormValues>({
     initialValues: {
       ownerName: "",
@@ -40,7 +40,7 @@ const ReviewForm = () => {
     },
     validationSchema,
     onSubmit: async (values) => await createReview(values),
-  });
+  })
 
   return (
     <View style={styles.container}>
@@ -77,7 +77,7 @@ const ReviewForm = () => {
       <Button onPress={() => formik.handleSubmit()}>Create a review</Button>
       {error && <Text style={{ color: theme.colors.error }}>{error}</Text>}
     </View>
-  );
-};
+  )
+}
 
-export default ReviewForm;
+export default ReviewForm

@@ -2,9 +2,9 @@ import {
   Text as NativeText,
   StyleSheet,
   TextProps as NativeTextProps,
-} from "react-native";
+} from "react-native"
 
-import theme from "../theme";
+import theme from "../theme"
 
 const styles = StyleSheet.create({
   text: {
@@ -31,12 +31,12 @@ const styles = StyleSheet.create({
   backgroundPrimary: {
     backgroundColor: theme.colors.primary,
   },
-});
+})
 
 interface TextProps extends NativeTextProps {
-  color?: "textSecondary" | "primary" | "white";
-  fontSize?: "subheading";
-  fontWeight?: "bold";
+  color?: "textSecondary" | "primary" | "white"
+  fontSize?: "subheading"
+  fontWeight?: "bold"
 }
 
 const Text = ({ color, fontSize, fontWeight, style, ...props }: TextProps) => {
@@ -48,9 +48,9 @@ const Text = ({ color, fontSize, fontWeight, style, ...props }: TextProps) => {
     fontSize === "subheading" && styles.fontSizeSubheading,
     fontWeight === "bold" && styles.fontWeightBold,
     style,
-  ];
+  ]
 
-  return <NativeText style={textStyle} {...props} />;
-};
+  return <NativeText style={textStyle} {...props} />
+}
 
-export default Text;
+export default Text

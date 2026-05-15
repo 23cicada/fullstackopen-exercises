@@ -1,4 +1,4 @@
-import { Platform } from "react-native";
+import { Platform } from "react-native"
 
 const theme = {
   colors: {
@@ -23,6 +23,6 @@ const theme = {
     normal: "400",
     bold: "700",
   },
-} as const;
+} as const
 
-export default theme;
+export default theme

@@ -1,8 +1,8 @@
-import { View, StyleSheet } from "react-native";
-import Text from "../Text";
-import theme from "../../theme";
-import { format } from "date-fns";
-import { Review } from "@/types";
+import { View, StyleSheet } from "react-native"
+import Text from "../Text"
+import theme from "../../theme"
+import { format } from "date-fns"
+import { Review } from "@/types"
 
 const styles = StyleSheet.create({
   container: {
@@ -20,11 +20,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-});
+})
 
 const ReviewItem = ({ createdAt, rating, text, user }: Review) => {
   return (
-    <View style={styles.container}>
+    <View style={styles.container} className="">
       <View style={styles.rating}>
         <Text color="primary" fontWeight="bold">
           {rating}
@@ -36,7 +36,7 @@ const ReviewItem = ({ createdAt, rating, text, user }: Review) => {
         {text && <Text>{text}</Text>}
       </View>
     </View>
-  );
-};
+  )
+}
 
-export default ReviewItem;
+export default ReviewItem

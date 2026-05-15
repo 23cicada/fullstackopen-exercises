@@ -1,11 +1,11 @@
-import { gql, TypedDocumentNode } from "@apollo/client";
-import { REPOSITORY_FRAGMENT } from "./fragments";
+import { gql, TypedDocumentNode } from "@apollo/client"
+import { REPOSITORY_FRAGMENT } from "./fragments"
 import {
   RepositoriesQuery,
   MeQuery,
   RepositoryQuery,
   RepositoryQueryVariables,
-} from "@/types";
+} from "@/types"
 
 export const GET_REPOSITORIES: TypedDocumentNode<RepositoriesQuery> = gql`
   query Repositories {
@@ -18,7 +18,7 @@ export const GET_REPOSITORIES: TypedDocumentNode<RepositoriesQuery> = gql`
     }
   }
   ${REPOSITORY_FRAGMENT}
-`;
+`
 
 export const ME: TypedDocumentNode<MeQuery> = gql`
   query Me {
@@ -27,7 +27,7 @@ export const ME: TypedDocumentNode<MeQuery> = gql`
       id
     }
   }
-`;
+`
 
 export const GET_REPOSITORY: TypedDocumentNode<
   RepositoryQuery,
@@ -54,4 +54,4 @@ export const GET_REPOSITORY: TypedDocumentNode<
     }
   }
   ${REPOSITORY_FRAGMENT}
-`;
+`

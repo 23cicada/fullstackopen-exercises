@@ -1,16 +1,16 @@
-import { View, StyleSheet } from "react-native";
-import theme from "../../theme";
-import * as yup from "yup";
-import { useFormik } from "formik";
-import useSignIn from "../../hooks/useSignIn";
-import TextInput from "../TextInput";
-import Button from "../Button";
-import { SignInFormValues } from "@/types";
+import { View, StyleSheet } from "react-native"
+import theme from "../../theme"
+import * as yup from "yup"
+import { useFormik } from "formik"
+import useSignIn from "../../hooks/useSignIn"
+import TextInput from "../TextInput"
+import Button from "../Button"
+import { SignInFormValues } from "@/types"
 
 const validationSchema = yup.object().shape({
   username: yup.string().required("Username is required"),
   password: yup.string().required("Password is required"),
-});
+})
 
 const styles = StyleSheet.create({
   container: {
@@ -19,10 +19,10 @@ const styles = StyleSheet.create({
     display: "flex",
     rowGap: 20,
   },
-});
+})
 
 interface SignInFormProps {
-  onSubmit: (values: SignInFormValues) => void | Promise<void>;
+  onSubmit: (values: SignInFormValues) => void | Promise<void>
 }
 
 export const SignInForm = ({ onSubmit }: SignInFormProps) => {
@@ -33,7 +33,7 @@ export const SignInForm = ({ onSubmit }: SignInFormProps) => {
     },
     validationSchema,
     onSubmit,
-  });
+  })
   return (
     <View style={styles.container}>
       <TextInput
@@ -53,21 +53,21 @@ export const SignInForm = ({ onSubmit }: SignInFormProps) => {
       />
       <Button onPress={() => formik.handleSubmit()}>Sign in</Button>
     </View>
-  );
-};
+  )
+}
 
 const SignIn = () => {
-  const { signIn } = useSignIn();
+  const { signIn } = useSignIn()
 
   const handleSubmit = async (values: SignInFormValues) => {
-    const { username, password } = values;
+    const { username, password } = values
     try {
-      await signIn({ username, password });
+      await signIn({ username, password })
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
-  return <SignInForm onSubmit={handleSubmit} />;
-};
+  }
+  return <SignInForm onSubmit={handleSubmit} />
+}
 
-export default SignIn;
+export default SignIn

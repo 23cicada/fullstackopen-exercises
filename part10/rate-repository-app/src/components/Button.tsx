@@ -1,6 +1,6 @@
-import { Pressable, StyleSheet, PressableProps } from "react-native";
-import theme from "../theme";
-import Text from "./Text";
+import { Pressable, StyleSheet, PressableProps } from "react-native"
+import theme from "../theme"
+import Text from "./Text"
 
 const styles = StyleSheet.create({
   button: {
@@ -10,10 +10,10 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     alignItems: "center",
   },
-});
+})
 
 interface ButtonProps extends PressableProps {
-  children: string;
+  children: string
 }
 
 const Button = ({ children, style, ...props }: ButtonProps) => {
@@ -29,7 +29,7 @@ const Button = ({ children, style, ...props }: ButtonProps) => {
         {children}
       </Text>
     </Pressable>
-  );
-};
+  )
+}
 
-export default Button;
+export default Button

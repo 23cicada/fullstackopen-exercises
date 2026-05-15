@@ -1,11 +1,11 @@
-import { View, StyleSheet } from "react-native";
-import theme from "../../theme";
-import TextInput from "../TextInput";
-import Button from "../Button";
-import * as yup from "yup";
-import { useFormik } from "formik";
-import useSignUp from "../../hooks/useSignUp";
-import Text from "../Text";
+import { View, StyleSheet } from "react-native"
+import theme from "../../theme"
+import TextInput from "../TextInput"
+import Button from "../Button"
+import * as yup from "yup"
+import { useFormik } from "formik"
+import useSignUp from "../../hooks/useSignUp"
+import Text from "../Text"
 
 const validationSchema = yup.object({
   username: yup
@@ -22,7 +22,7 @@ const validationSchema = yup.object({
     .string()
     .oneOf([yup.ref("password"), undefined], "Passwords must match")
     .required("Password confirmation is required"),
-});
+})
 
 const styles = StyleSheet.create({
   container: {
@@ -31,11 +31,11 @@ const styles = StyleSheet.create({
     display: "flex",
     rowGap: 20,
   },
-});
+})
 
 const SignUp = () => {
-  const { signUp, result } = useSignUp();
-  const error = result.error?.message;
+  const { signUp, result } = useSignUp()
+  const error = result.error?.message
   const formik = useFormik({
     initialValues: {
       username: "",
@@ -44,9 +44,9 @@ const SignUp = () => {
     },
     validationSchema,
     onSubmit: async ({ username, password }) => {
-      await signUp({ username, password });
+      await signUp({ username, password })
     },
-  });
+  })
   return (
     <View style={styles.container}>
       <TextInput
@@ -78,7 +78,7 @@ const SignUp = () => {
       <Button onPress={() => formik.handleSubmit()}>Sign up</Button>
       {error && <Text style={{ color: theme.colors.error }}>{error}</Text>}
     </View>
-  );
-};
+  )
+}
 
-export default SignUp;
+export default SignUp

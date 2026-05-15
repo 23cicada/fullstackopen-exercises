@@ -3,9 +3,9 @@ import {
   StyleSheet,
   View,
   TextInputProps as NativeTextInputProps,
-} from "react-native";
-import Text from "./Text";
-import theme from "../theme";
+} from "react-native"
+import Text from "./Text"
+import theme from "../theme"
 
 const styles = StyleSheet.create({
   input: {
@@ -18,10 +18,10 @@ const styles = StyleSheet.create({
     color: theme.colors.error,
     marginTop: 4,
   },
-});
+})
 
 interface TextInputProps extends NativeTextInputProps {
-  error?: string | boolean;
+  error?: string | boolean
 }
 
 const TextInput = ({ error, ...props }: TextInputProps) => {
@@ -30,7 +30,7 @@ const TextInput = ({ error, ...props }: TextInputProps) => {
       <NativeTextInput style={styles.input} {...props} />
       {error && <Text style={styles.error}>{error}</Text>}
     </View>
-  );
-};
+  )
+}
 
-export default TextInput;
+export default TextInput

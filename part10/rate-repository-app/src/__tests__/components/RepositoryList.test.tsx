@@ -1,8 +1,8 @@
-import { render, within, screen } from "@testing-library/react-native";
+import { render, within, screen } from "@testing-library/react-native"
 
-import { RepositoryListContainer } from "../../components/RepositoryList";
-import { formatCount } from "../../utils";
-import { RepositoriesQuery } from "@/types";
+import { RepositoryListContainer } from "../../components/RepositoryList"
+import { formatCount } from "../../utils"
+import { RepositoriesQuery } from "@/types"
 
 describe("RepositoryList", () => {
   describe("RepositoryListContainer", () => {
@@ -48,13 +48,13 @@ describe("RepositoryList", () => {
               "WyJhc3luYy1saWJyYXJ5LnJlYWN0LWFzeW5jIiwxNTg4NjU2NzUwMDc2XQ==",
           },
         ],
-      } as unknown as RepositoriesQuery["repositories"];
+      } as unknown as RepositoriesQuery["repositories"]
 
-      render(<RepositoryListContainer repositories={repositories} />);
+      render(<RepositoryListContainer repositories={repositories} />)
 
-      const repositoryItems = screen.getAllByTestId("repositoryItem");
+      const repositoryItems = screen.getAllByTestId("repositoryItem")
 
-      expect(repositoryItems).toHaveLength(repositories.edges.length);
+      expect(repositoryItems).toHaveLength(repositories.edges.length)
 
       repositoryItems.forEach((item, index) => {
         const {
@@ -65,26 +65,26 @@ describe("RepositoryList", () => {
           stargazersCount,
           ratingAverage,
           reviewCount,
-        } = repositories.edges[index].node;
-        const utils = within(item);
+        } = repositories.edges[index].node
+        const utils = within(item)
 
-        expect(utils.getByText(fullName)).toBeDefined();
+        expect(utils.getByText(fullName)).toBeDefined()
         if (description) {
-          expect(utils.getByText(description)).toBeDefined();
+          expect(utils.getByText(description)).toBeDefined()
         }
         if (language) {
-          expect(utils.getByText(language)).toBeDefined();
+          expect(utils.getByText(language)).toBeDefined()
         }
 
         if (forksCount !== null) {
-          expect(utils.getByText(formatCount(forksCount))).toBeDefined();
+          expect(utils.getByText(formatCount(forksCount))).toBeDefined()
         }
         if (stargazersCount !== null) {
-          expect(utils.getByText(formatCount(stargazersCount))).toBeDefined();
+          expect(utils.getByText(formatCount(stargazersCount))).toBeDefined()
         }
-        expect(utils.getByText(formatCount(ratingAverage))).toBeDefined();
-        expect(utils.getByText(formatCount(reviewCount))).toBeDefined();
-      });
-    });
-  });
-});
+        expect(utils.getByText(formatCount(ratingAverage))).toBeDefined()
+        expect(utils.getByText(formatCount(reviewCount))).toBeDefined()
+      })
+    })
+  })
+})
