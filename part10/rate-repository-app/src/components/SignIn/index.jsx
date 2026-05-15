@@ -52,7 +52,7 @@ export const SignInForm = ({ onSubmit }) => {
 };
 
 const SignIn = () => {
-  const [signIn] = useSignIn();
+  const { signIn } = useSignIn();
 
   const handleSubmit = async (values) => {
     const { username, password } = values;

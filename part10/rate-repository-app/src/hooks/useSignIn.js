@@ -16,7 +16,7 @@ const useSignIn = () => {
     navigate("/");
   }
 
-  return [signIn, result]
+  return { signIn, result }
 }
 
 export default useSignIn;
