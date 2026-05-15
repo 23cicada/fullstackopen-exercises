@@ -5,6 +5,7 @@ import { useFormik } from "formik";
 import useSignIn from "../../hooks/useSignIn";
 import TextInput from "../TextInput";
 import Button from "../Button";
+import { SignInFormValues } from "@/types";
 
 const validationSchema = yup.object().shape({
   username: yup.string().required("Username is required"),
@@ -20,14 +21,18 @@ const styles = StyleSheet.create({
   },
 });
 
-export const SignInForm = ({ onSubmit }) => {
-  const formik = useFormik({
+interface SignInFormProps {
+  onSubmit: (values: SignInFormValues) => void | Promise<void>;
+}
+
+export const SignInForm = ({ onSubmit }: SignInFormProps) => {
+  const formik = useFormik<SignInFormValues>({
     initialValues: {
       username: "",
       password: "",
     },
     validationSchema,
-    onSubmit: onSubmit,
+    onSubmit,
   });
   return (
     <View style={styles.container}>
@@ -46,7 +51,7 @@ export const SignInForm = ({ onSubmit }) => {
         onChangeText={formik.handleChange("password")}
         onBlur={formik.handleBlur("password")}
       />
-      <Button onPress={formik.handleSubmit}>Sign in</Button>
+      <Button onPress={() => formik.handleSubmit()}>Sign in</Button>
     </View>
   );
 };
@@ -54,7 +59,7 @@ export const SignInForm = ({ onSubmit }) => {
 const SignIn = () => {
   const { signIn } = useSignIn();
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values: SignInFormValues) => {
     const { username, password } = values;
     try {
       await signIn({ username, password });

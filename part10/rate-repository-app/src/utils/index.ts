@@ -1,9 +1,5 @@
-export const formatCount = (value) => {
+export const formatCount = (value: string | number) => {
   const numberValue = Number(value);
-
-  if (Number.isNaN(numberValue)) {
-    return value;
-  }
 
   if (numberValue >= 1000) {
     return `${(numberValue / 1000).toFixed(1)}k`;

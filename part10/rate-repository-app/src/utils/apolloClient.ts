@@ -1,25 +1,26 @@
-import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
-import { SetContextLink } from '@apollo/client/link/context'
+import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
+import { SetContextLink } from "@apollo/client/link/context";
+import type AuthStorage from "./authStorage";
 
 const httpLink = new HttpLink({
   uri: process.env.EXPO_PUBLIC_APOLLO_URI,
 });
 
-const createApolloClient = (authStorage) => {
+const createApolloClient = (authStorage: AuthStorage) => {
   const authLink = new SetContextLink(async ({ headers }) => {
     try {
       const accessToken = await authStorage.getAccessToken();
       return {
         headers: {
           ...headers,
-          "Authorization": accessToken ? `Bearer ${accessToken}` : ''
-        }
-      }
+          Authorization: accessToken ? `Bearer ${accessToken}` : "",
+        },
+      };
     } catch (error) {
       console.log(error);
       return { headers };
     }
-  })
+  });
 
   return new ApolloClient({
     link: authLink.concat(httpLink),

@@ -10,7 +10,12 @@ const styles = StyleSheet.create({
   },
 });
 
-const StatItem = ({ label, value }) => {
+interface StatItemProps {
+  label: string;
+  value: number;
+}
+
+const StatItem = ({ label, value }: StatItemProps) => {
   return (
     <View style={styles.container}>
       <Text fontWeight="bold">{formatCount(value)}</Text>

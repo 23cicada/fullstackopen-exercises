@@ -1,8 +1,9 @@
 import { FlatList } from "react-native";
 import ReviewItem from "./ReviewItem";
 import ItemSeparator from "../ItemSeparator";
+import { Reviews } from "@/types";
 
-const ReviewList = ({ reviews }) => {
+const ReviewList = ({ reviews }: { reviews?: Reviews }) => {
   const reviewNodes = reviews ? reviews.edges.map((edge) => edge.node) : [];
 
   return (

@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet } from "react-native";
+import { Pressable, StyleSheet, PressableProps } from "react-native";
 import theme from "../theme";
 import Text from "./Text";
 
@@ -11,9 +11,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 });
-const Button = ({ children, style, ...props }) => {
+
+interface ButtonProps extends PressableProps {
+  children: string;
+}
+
+const Button = ({ children, style, ...props }: ButtonProps) => {
   return (
-    <Pressable {...props} style={[styles.button, style]}>
+    <Pressable
+      {...props}
+      style={(state) => [
+        styles.button,
+        typeof style === "function" ? style(state) : style,
+      ]}
+    >
       <Text color="white" fontWeight="bold">
         {children}
       </Text>

@@ -3,8 +3,13 @@ import RepositoryItem from "../RepositoryItem";
 import useRepositories from "../../hooks/useRepositories";
 import { Link } from "react-router-native";
 import ItemSeparator from "../ItemSeparator";
+import { RepositoriesQuery } from "@/types";
 
-export const RepositoryListContainer = ({ repositories }) => {
+export const RepositoryListContainer = ({
+  repositories,
+}: {
+  repositories?: RepositoriesQuery["repositories"];
+}) => {
   const repositoryNodes = repositories
     ? repositories.edges.map((edge) => edge.node)
     : [];

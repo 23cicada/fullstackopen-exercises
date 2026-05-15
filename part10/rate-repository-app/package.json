@@ -8,12 +8,15 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "lint": "expo lint",
-    "test": "jest"
+    "test": "jest",
+    "codegen": "graphql-codegen --config codegen.ts",
+    "tsc": "tsc"
   },
   "dependencies": {
     "@apollo/client": "^4.1.9",
     "@expo/metro-runtime": "~55.0.11",
     "@react-native-async-storage/async-storage": "2.2.0",
+    "@types/react": "~19.2.10",
     "date-fns": "^4.1.0",
     "expo": "~55.0.24",
     "expo-constants": "~55.0.16",
@@ -27,11 +30,14 @@
     "react-native": "0.83.6",
     "react-native-web": "^0.21.0",
     "react-router-native": "^6.30.3",
+    "typescript": "~5.9.2",
     "yup": "^1.7.1"
   },
   "private": true,
   "devDependencies": {
     "@babel/runtime": "^7.29.2",
+    "@graphql-codegen/cli": "^7.0.0",
+    "@graphql-codegen/typescript-operations": "^6.0.2",
     "@testing-library/react-native": "13.3.3",
     "@types/jest": "29.5.14",
     "eslint-config-expo": "~55.0.1",

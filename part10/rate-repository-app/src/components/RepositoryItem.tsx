@@ -2,6 +2,7 @@ import { View, Image, StyleSheet } from "react-native";
 import Text from "./Text";
 import theme from "../theme";
 import StatItem from "./StatItem";
+import { RepositoryQuery, RepositoriesQuery } from "@/types";
 
 const styles = StyleSheet.create({
   avatar: {
@@ -40,7 +41,13 @@ const styles = StyleSheet.create({
   },
 });
 
-const RepositoryItem = (props) => {
+type RepositoryEntity =
+  | NonNullable<RepositoryQuery["repository"]>
+  | NonNullable<RepositoriesQuery["repositories"]>["edges"][number]["node"];
+
+type RepositoryItemProps = RepositoryEntity & { children?: React.ReactNode };
+
+const RepositoryItem = (props: RepositoryItemProps) => {
   const {
     fullName,
     description,
@@ -55,7 +62,7 @@ const RepositoryItem = (props) => {
   return (
     <View style={styles.container} testID="repositoryItem">
       <View style={styles.infoContainer}>
-        <Image style={styles.avatar} source={{ uri: ownerAvatarUrl }} />
+        <Image style={styles.avatar} source={{ uri: ownerAvatarUrl ?? "" }} />
         <View style={styles.infoTextContainer}>
           <Text fontWeight="bold">{fullName}</Text>
           <Text color="textSecondary">{description}</Text>
@@ -63,8 +70,8 @@ const RepositoryItem = (props) => {
         </View>
       </View>
       <View style={styles.statsContainer}>
-        <StatItem label="Stars" value={stargazersCount} />
-        <StatItem label="Forks" value={forksCount} />
+        <StatItem label="Stars" value={stargazersCount ?? 0} />
+        <StatItem label="Forks" value={forksCount ?? 0} />
         <StatItem label="Reviews" value={reviewCount} />
         <StatItem label="Rating" value={ratingAverage} />
       </View>

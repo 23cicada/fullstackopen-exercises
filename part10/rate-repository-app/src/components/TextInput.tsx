@@ -1,4 +1,9 @@
-import { TextInput as NativeTextInput, StyleSheet, View } from "react-native";
+import {
+  TextInput as NativeTextInput,
+  StyleSheet,
+  View,
+  TextInputProps as NativeTextInputProps,
+} from "react-native";
 import Text from "./Text";
 import theme from "../theme";
 
@@ -15,7 +20,11 @@ const styles = StyleSheet.create({
   },
 });
 
-const TextInput = ({ error, ...props }) => {
+interface TextInputProps extends NativeTextInputProps {
+  error?: string | boolean;
+}
+
+const TextInput = ({ error, ...props }: TextInputProps) => {
   return (
     <View>
       <NativeTextInput style={styles.input} {...props} />

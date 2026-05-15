@@ -6,6 +6,7 @@ import TextInput from "../TextInput";
 import Button from "../Button";
 import useReview from "../../hooks/useReview";
 import Text from "../Text";
+import { ReviewFormValues } from "@/types";
 
 const validationSchema = yup.object().shape({
   ownerName: yup.string().required("Repository owner name is required"),
@@ -30,11 +31,11 @@ const styles = StyleSheet.create({
 const ReviewForm = () => {
   const { createReview, result } = useReview();
   const error = result.error?.message;
-  const formik = useFormik({
+  const formik = useFormik<ReviewFormValues>({
     initialValues: {
       ownerName: "",
       name: "",
-      rating: undefined,
+      rating: "",
       review: "",
     },
     validationSchema,
@@ -73,7 +74,7 @@ const ReviewForm = () => {
         multiline
         numberOfLines={4}
       />
-      <Button onPress={formik.handleSubmit}>Create a review</Button>
+      <Button onPress={() => formik.handleSubmit()}>Create a review</Button>
       {error && <Text style={{ color: theme.colors.error }}>{error}</Text>}
     </View>
   );

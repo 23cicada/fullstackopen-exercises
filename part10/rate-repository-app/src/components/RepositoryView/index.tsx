@@ -9,12 +9,14 @@ const RepositoryView = () => {
   const { id } = useParams();
   const { repository } = useRepository({ repositoryId: id });
 
+  if (!repository) return null;
+
   return (
     <>
       <RepositoryItem {...repository}>
         <Button
           style={{ marginTop: 16 }}
-          onPress={() => Linking.openURL(repository.url)}
+          onPress={() => repository?.url && Linking.openURL(repository.url)}
         >
           Open in GitHub
         </Button>

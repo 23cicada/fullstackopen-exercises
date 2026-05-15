@@ -20,7 +20,7 @@ const validationSchema = yup.object({
     .max(50, "Password must be less than 50 characters long"),
   passwordConfirmation: yup
     .string()
-    .oneOf([yup.ref("password"), null], "Passwords must match")
+    .oneOf([yup.ref("password"), undefined], "Passwords must match")
     .required("Password confirmation is required"),
 });
 
@@ -40,6 +40,7 @@ const SignUp = () => {
     initialValues: {
       username: "",
       password: "",
+      passwordConfirmation: "",
     },
     validationSchema,
     onSubmit: async ({ username, password }) => {
@@ -74,7 +75,7 @@ const SignUp = () => {
           formik.errors.passwordConfirmation
         }
       />
-      <Button onPress={formik.handleSubmit}>Sign up</Button>
+      <Button onPress={() => formik.handleSubmit()}>Sign up</Button>
       {error && <Text style={{ color: theme.colors.error }}>{error}</Text>}
     </View>
   );
