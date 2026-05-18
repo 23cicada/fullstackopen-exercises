@@ -1,5 +1,4 @@
-import { View, StyleSheet } from "react-native"
-import theme from "../../theme"
+import { View } from "react-native"
 import * as yup from "yup"
 import { useFormik } from "formik"
 import TextInput from "../TextInput"
@@ -20,14 +19,6 @@ const validationSchema = yup.object().shape({
     .max(100, "Rating must be less than 100"),
 })
 
-const styles = StyleSheet.create({
-  container: {
-    padding: 16,
-    backgroundColor: theme.colors.white,
-    rowGap: 20,
-  },
-})
-
 const ReviewForm = () => {
   const { createReview, result } = useReview()
   const error = result.error?.message
@@ -43,7 +34,7 @@ const ReviewForm = () => {
   })
 
   return (
-    <View style={styles.container}>
+    <View className="gap-y-5 bg-white p-4">
       <TextInput
         placeholder="Repository owner name"
         value={formik.values.ownerName}
@@ -75,7 +66,7 @@ const ReviewForm = () => {
         numberOfLines={4}
       />
       <Button onPress={() => formik.handleSubmit()}>Create a review</Button>
-      {error && <Text style={{ color: theme.colors.error }}>{error}</Text>}
+      {error && <Text className="text-error">{error}</Text>}
     </View>
   )
 }

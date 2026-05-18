@@ -15,7 +15,7 @@ const RepositoryView = () => {
     <>
       <RepositoryItem {...repository}>
         <Button
-          style={{ marginTop: 16 }}
+          className="mt-4"
           onPress={() => repository?.url && Linking.openURL(repository.url)}
         >
           Open in GitHub

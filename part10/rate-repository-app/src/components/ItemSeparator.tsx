@@ -1,11 +1,5 @@
-import { View, StyleSheet } from "react-native"
+import { View } from "react-native"
 
-const styles = StyleSheet.create({
-  separator: {
-    height: 10,
-  },
-})
-
-const ItemSeparator = () => <View style={styles.separator} />
+const ItemSeparator = () => <View className="h-2.5" />
 
 export default ItemSeparator

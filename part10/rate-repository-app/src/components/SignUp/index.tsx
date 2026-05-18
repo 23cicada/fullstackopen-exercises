@@ -1,5 +1,4 @@
-import { View, StyleSheet } from "react-native"
-import theme from "../../theme"
+import { View } from "react-native"
 import TextInput from "../TextInput"
 import Button from "../Button"
 import * as yup from "yup"
@@ -24,15 +23,6 @@ const validationSchema = yup.object({
     .required("Password confirmation is required"),
 })
 
-const styles = StyleSheet.create({
-  container: {
-    padding: 16,
-    backgroundColor: theme.colors.white,
-    display: "flex",
-    rowGap: 20,
-  },
-})
-
 const SignUp = () => {
   const { signUp, result } = useSignUp()
   const error = result.error?.message
@@ -48,7 +38,7 @@ const SignUp = () => {
     },
   })
   return (
-    <View style={styles.container}>
+    <View className="gap-y-5 bg-white p-4">
       <TextInput
         placeholder="Username"
         value={formik.values.username}
@@ -76,7 +66,7 @@ const SignUp = () => {
         }
       />
       <Button onPress={() => formik.handleSubmit()}>Sign up</Button>
-      {error && <Text style={{ color: theme.colors.error }}>{error}</Text>}
+      {error && <Text className="text-error">{error}</Text>}
     </View>
   )
 }

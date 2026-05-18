@@ -11,7 +11,7 @@ const ReviewList = ({ reviews }: { reviews?: Reviews }) => {
       data={reviewNodes}
       renderItem={({ item }) => <ReviewItem {...item} />}
       ItemSeparatorComponent={ItemSeparator}
-      style={{ marginTop: 10 }}
+      className="mt-2.5"
     />
   )
 }

@@ -1,33 +1,28 @@
-import { Pressable, StyleSheet, PressableProps } from "react-native"
-import theme from "../theme"
+import { Pressable, PressableProps } from "react-native"
 import Text from "./Text"
+import { cva, VariantProps } from "class-variance-authority"
+import { cn } from "@/utils"
 
-const styles = StyleSheet.create({
-  button: {
-    backgroundColor: theme.colors.primary,
-    color: theme.colors.white,
-    padding: 14,
-    borderRadius: 6,
-    alignItems: "center",
+const buttonVariants = cva([], {
+  variants: {
+    type: {
+      primary: "bg-primary p-3.5 rounded-md",
+    },
+  },
+  defaultVariants: {
+    type: "primary",
   },
 })
 
-interface ButtonProps extends PressableProps {
+interface ButtonProps
+  extends PressableProps, VariantProps<typeof buttonVariants> {
   children: string
 }
 
-const Button = ({ children, style, ...props }: ButtonProps) => {
+const Button = ({ children, type, className, ...props }: ButtonProps) => {
   return (
-    <Pressable
-      {...props}
-      style={(state) => [
-        styles.button,
-        typeof style === "function" ? style(state) : style,
-      ]}
-    >
-      <Text color="white" fontWeight="bold">
-        {children}
-      </Text>
+    <Pressable {...props} className={cn(buttonVariants({ type }), className)}>
+      <Text className="text-center font-bold text-white">{children}</Text>
     </Pressable>
   )
 }

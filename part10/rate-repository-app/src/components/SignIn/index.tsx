@@ -1,5 +1,4 @@
-import { View, StyleSheet } from "react-native"
-import theme from "../../theme"
+import { View } from "react-native"
 import * as yup from "yup"
 import { useFormik } from "formik"
 import useSignIn from "../../hooks/useSignIn"
@@ -10,15 +9,6 @@ import { SignInFormValues } from "@/types"
 const validationSchema = yup.object().shape({
   username: yup.string().required("Username is required"),
   password: yup.string().required("Password is required"),
-})
-
-const styles = StyleSheet.create({
-  container: {
-    padding: 16,
-    backgroundColor: theme.colors.white,
-    display: "flex",
-    rowGap: 20,
-  },
 })
 
 interface SignInFormProps {
@@ -35,7 +25,7 @@ export const SignInForm = ({ onSubmit }: SignInFormProps) => {
     onSubmit,
   })
   return (
-    <View style={styles.container}>
+    <View className="gap-y-5 bg-white p-4">
       <TextInput
         placeholder="Username"
         value={formik.values.username}
