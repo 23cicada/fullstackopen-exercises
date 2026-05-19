@@ -1,11 +1,21 @@
-import { View, ScrollView, Pressable } from "react-native"
+import { View, ScrollView, Pressable, TextStyle } from "react-native"
 import Constants from "expo-constants"
-import { Link } from "react-router-native"
+import { Link } from "@react-navigation/native"
 import Text from "./Text"
 import useIsSigned from "../hooks/useIsSigned"
 import useSignOut from "../hooks/useSignOut"
+import { NativeStackHeaderProps } from "@react-navigation/native-stack"
+import { ComponentProps } from "react"
 
-const AppBar = () => {
+const AppBarLink = (props: ComponentProps<typeof Link>) => {
+  const style: TextStyle = {
+    color: "white",
+    fontWeight: "bold",
+  }
+  return <Link {...props} style={style} />
+}
+
+const AppBar = (props: NativeStackHeaderProps) => {
   const { isSigned } = useIsSigned()
   const { signOut } = useSignOut()
   return (
@@ -14,26 +24,20 @@ const AppBar = () => {
       className="bg-text-primary p-4"
     >
       <ScrollView horizontal contentContainerStyle={{ gap: 10 }}>
-        <Link to="/">
-          <Text type="nav">Repositories</Text>
-        </Link>
+        <AppBarLink screen="RepositoryList" className="text-white">
+          Repositories
+        </AppBarLink>
         {isSigned ? (
           <>
-            <Link to="/review">
-              <Text type="nav">Create a review</Text>
-            </Link>
+            <AppBarLink screen="ReviewForm">Create a review</AppBarLink>
             <Pressable onPress={signOut}>
               <Text type="nav">Sign out</Text>
             </Pressable>
           </>
         ) : (
           <>
-            <Link to="/signin">
-              <Text type="nav">Sign in</Text>
-            </Link>
-            <Link to="/signup">
-              <Text type="nav">Sign up</Text>
-            </Link>
+            <AppBarLink screen="SignIn">Sign in</AppBarLink>
+            <AppBarLink screen="SignUp">Sign up</AppBarLink>
           </>
         )}
       </ScrollView>

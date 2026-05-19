@@ -1,15 +1,16 @@
-import { FlatList } from "react-native"
+import { FlatList, Pressable } from "react-native"
 import RepositoryItem from "../RepositoryItem"
 import useRepositories from "../../hooks/useRepositories"
-import { Link } from "react-router-native"
 import ItemSeparator from "../ItemSeparator"
 import { RepositoriesQuery } from "@/types"
+import { useNavigation } from "@react-navigation/native"
 
 export const RepositoryListContainer = ({
   repositories,
 }: {
   repositories?: RepositoriesQuery["repositories"]
 }) => {
+  const navigation = useNavigation()
   const repositoryNodes = repositories
     ? repositories.edges.map((edge) => edge.node)
     : []
@@ -19,9 +20,11 @@ export const RepositoryListContainer = ({
       data={repositoryNodes}
       ItemSeparatorComponent={ItemSeparator}
       renderItem={({ item }) => (
-        <Link to={`/repository/${item.id}`}>
+        <Pressable
+          onPress={() => navigation.navigate("RepositoryView", { id: item.id })}
+        >
           <RepositoryItem {...item} />
-        </Link>
+        </Pressable>
       )}
     />
   )

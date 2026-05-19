@@ -18,5 +18,20 @@ type SignInFormValues = {
 
 type SignUpFormValues = SignInFormValues
 
-export { Review, Reviews, ReviewFormValues, SignInFormValues, SignUpFormValues }
+type RootStackParamList = {
+  RepositoryList: undefined
+  RepositoryView: { id: string }
+  SignIn: undefined
+  ReviewForm: undefined
+  SignUp: undefined
+}
+
+export {
+  Review,
+  Reviews,
+  ReviewFormValues,
+  SignInFormValues,
+  SignUpFormValues,
+  RootStackParamList,
+}
 export * from "./__generated__/graphql"

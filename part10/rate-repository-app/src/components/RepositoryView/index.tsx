@@ -1,13 +1,15 @@
-import { useParams } from "react-router-native"
 import useRepository from "../../hooks/useRepository"
 import RepositoryItem from "../RepositoryItem"
 import * as Linking from "expo-linking"
 import ReviewList from "./ReviewList"
 import Button from "../Button"
+import { StaticScreenProps } from "@react-navigation/native"
+import { RootStackParamList } from "@/types"
 
-const RepositoryView = () => {
-  const { id } = useParams()
-  const { repository } = useRepository({ repositoryId: id })
+const RepositoryView = ({
+  route,
+}: StaticScreenProps<RootStackParamList["RepositoryView"]>) => {
+  const { repository } = useRepository({ repositoryId: route.params.id })
 
   if (!repository) return null
 
