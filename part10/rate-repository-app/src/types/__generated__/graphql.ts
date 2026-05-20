@@ -6,6 +6,8 @@ export type Incremental<T> =
   | {
       [P in keyof T]?: P extends " $fragmentName" | "__typename" ? T[P] : never
     }
+export type AllRepositoriesOrderBy = "CREATED_AT" | "RATING_AVERAGE"
+
 export type AuthenticateInput = {
   password: string
   username: string
@@ -15,13 +17,15 @@ export type CreateReviewInput = {
   ownerName: string
   rating: number
   repositoryName: string
-  text?: string | null | undefined
+  text?: string | undefined
 }
 
 export type CreateUserInput = {
   password: string
   username: string
 }
+
+export type OrderDirection = "ASC" | "DESC"
 
 export type RepositoryFragmentFragment = {
   __typename: "Repository"
@@ -38,7 +42,7 @@ export type RepositoryFragmentFragment = {
 }
 
 export type AuthenticateMutationVariables = Exact<{
-  credentials?: AuthenticateInput | null | undefined
+  credentials?: AuthenticateInput | undefined
 }>
 
 export type AuthenticateMutation = {
@@ -50,7 +54,7 @@ export type AuthenticateMutation = {
 }
 
 export type CreateReviewMutationVariables = Exact<{
-  review?: CreateReviewInput | null | undefined
+  review?: CreateReviewInput | undefined
 }>
 
 export type CreateReviewMutation = {
@@ -58,19 +62,23 @@ export type CreateReviewMutation = {
 }
 
 export type CreateUserMutationVariables = Exact<{
-  user?: CreateUserInput | null | undefined
+  user?: CreateUserInput | undefined
 }>
 
 export type CreateUserMutation = {
   createUser: { __typename: "User"; username: string } | null
 }
 
-export type RepositoriesQueryVariables = Exact<{ [key: string]: never }>
+export type RepositoriesQueryVariables = Exact<{
+  orderDirection?: OrderDirection | undefined
+  orderBy?: AllRepositoriesOrderBy | undefined
+  searchKeyword?: string | undefined
+}>
 
 export type RepositoriesQuery = {
   repositories: {
     __typename: "RepositoryConnection"
-    edges: {
+    edges: Array<{
       __typename: "RepositoryEdge"
       node: {
         __typename: "Repository"
@@ -85,7 +93,7 @@ export type RepositoriesQuery = {
         ownerAvatarUrl: string | null
         id: string
       }
-    }[]
+    }>
   }
 }
 
@@ -115,7 +123,7 @@ export type RepositoryQuery = {
     id: string
     reviews: {
       __typename: "ReviewConnection"
-      edges: {
+      edges: Array<{
         __typename: "ReviewEdge"
         node: {
           __typename: "Review"
@@ -125,7 +133,7 @@ export type RepositoryQuery = {
           text: string | null
           user: { __typename: "User"; id: string; username: string }
         }
-      }[]
+      }>
     }
   } | null
 }

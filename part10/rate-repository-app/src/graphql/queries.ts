@@ -2,14 +2,26 @@ import { gql, TypedDocumentNode } from "@apollo/client"
 import { REPOSITORY_FRAGMENT } from "./fragments"
 import {
   RepositoriesQuery,
+  RepositoriesQueryVariables,
   MeQuery,
   RepositoryQuery,
   RepositoryQueryVariables,
 } from "@/types"
 
-export const GET_REPOSITORIES: TypedDocumentNode<RepositoriesQuery> = gql`
-  query Repositories {
-    repositories {
+export const GET_REPOSITORIES: TypedDocumentNode<
+  RepositoriesQuery,
+  RepositoriesQueryVariables
+> = gql`
+  query Repositories(
+    $orderDirection: OrderDirection
+    $orderBy: AllRepositoriesOrderBy
+    $searchKeyword: String
+  ) {
+    repositories(
+      orderDirection: $orderDirection
+      orderBy: $orderBy
+      searchKeyword: $searchKeyword
+    ) {
       edges {
         node {
           ...RepositoryFragment

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import useReview from "@/hooks/useReview"
 import { Text } from "@/components/ui/text"
 import { ReviewFormValues } from "@/types"
+import { Textarea } from "@/components/ui/textarea"
 
 const validationSchema = yup.object().shape({
   ownerName: yup.string().required("Repository owner name is required"),
@@ -56,12 +57,12 @@ const ReviewForm = () => {
         onBlur={formik.handleBlur("rating")}
         error={formik.touched.rating && formik.errors.rating}
       />
-      <TextInput
+      <Textarea
+        className="border-text-primary"
         placeholder="Review"
         value={formik.values.review}
         onChangeText={formik.handleChange("review")}
         onBlur={formik.handleBlur("review")}
-        error={formik.touched.review && formik.errors.review}
         multiline
         numberOfLines={4}
       />

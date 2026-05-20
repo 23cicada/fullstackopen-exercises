@@ -21,7 +21,7 @@ const AppBar = (props: NativeStackHeaderProps) => {
       style={{ paddingTop: Constants.statusBarHeight }}
       className="bg-primary p-4"
     >
-      <ScrollView horizontal contentContainerStyle={{ gap: 10 }}>
+      <ScrollView horizontal contentContainerStyle={{ gap: 20 }}>
         <Link screen="RepositoryList" style={styles.link}>
           Repositories
         </Link>

@@ -1,15 +1,23 @@
-import { FlatList, Pressable } from "react-native"
+import { FlatList, Pressable, View } from "react-native"
 import RepositoryItem from "@/components/common/RepositoryItem"
 import useRepositories from "@/hooks/useRepositories"
 import ItemSeparator from "@/components/common/ItemSeparator"
-import { RepositoriesQuery } from "@/types"
+import { RepositoriesQuery, RepositoriesQueryVariables } from "@/types"
 import { useNavigation } from "@react-navigation/native"
+import OrderSelect from "./OrderSelect"
+import { useState } from "react"
+import SearchInput from "@/components/common/SearchInput"
 
 export const RepositoryListContainer = ({
   repositories,
+  variables,
+  onVariablesChange,
 }: {
   repositories?: RepositoriesQuery["repositories"]
+  variables?: RepositoriesQueryVariables
+  onVariablesChange?: (variables: RepositoriesQueryVariables) => void
 }) => {
+  const [keyword, setKeyword] = useState<string>("")
   const navigation = useNavigation()
   const repositoryNodes = repositories
     ? repositories.edges.map((edge) => edge.node)
@@ -17,6 +25,23 @@ export const RepositoryListContainer = ({
 
   return (
     <FlatList
+      ListHeaderComponent={
+        <View className="mx-4 mt-4">
+          <SearchInput
+            value={keyword}
+            onChangeText={setKeyword}
+            returnKeyType="search"
+            onSubmitEditing={() =>
+              onVariablesChange?.({ ...variables, searchKeyword: keyword })
+            }
+            onClear={() => {
+              setKeyword("")
+              onVariablesChange?.({ ...variables, searchKeyword: undefined })
+            }}
+          />
+          <OrderSelect order={variables} onOrderChange={onVariablesChange} />
+        </View>
+      }
       data={repositoryNodes}
       ItemSeparatorComponent={ItemSeparator}
       renderItem={({ item }) => (
@@ -31,9 +56,19 @@ export const RepositoryListContainer = ({
 }
 
 const RepositoryList = () => {
-  const { repositories } = useRepositories()
+  const [variables, setVariables] = useState<RepositoriesQueryVariables>({
+    orderDirection: "DESC",
+    orderBy: "CREATED_AT",
+  })
+  const { repositories } = useRepositories(variables)
 
-  return <RepositoryListContainer repositories={repositories} />
+  return (
+    <RepositoryListContainer
+      repositories={repositories}
+      variables={variables}
+      onVariablesChange={setVariables}
+    />
+  )
 }
 
 export default RepositoryList

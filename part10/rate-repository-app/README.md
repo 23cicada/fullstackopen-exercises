@@ -19,3 +19,7 @@ npx expo install react-native-web react-dom @expo/metro-runtime
 [Framework-less RN 0.82, Nativewind 4.2.3 - hot reload throws an exception](https://github.com/nativewind/nativewind/issues/1773)
 
 [react-native-reanimated:buildCMakeDebug[arm64-v8a] FAILED only in Windows](https://github.com/software-mansion/react-native-reanimated/issues/6872#issuecomment-2612775221)
+
+[Repo: Navigation context error triggered by NativeWind shadow-\* toggle in Expo Router (Expo 53)](https://github.com/nativewind/nativewind/issues/1711)
+
+> [Error: Couldn't find a navigation context. Have you wrapped your app with 'NavigationContainer'?](https://github.com/expo/expo/issues/38191)
