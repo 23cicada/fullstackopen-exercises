@@ -1,10 +1,11 @@
 import { View } from "react-native"
 import * as yup from "yup"
 import { useFormik } from "formik"
-import useSignIn from "../../hooks/useSignIn"
-import TextInput from "../TextInput"
-import Button from "../Button"
+import useSignIn from "@/hooks/useSignIn"
+import TextInput from "@/components/common/TextInput"
+import { Button } from "@/components/ui/button"
 import { SignInFormValues } from "@/types"
+import { Text } from "@/components/ui/text"
 
 const validationSchema = yup.object().shape({
   username: yup.string().required("Username is required"),
@@ -41,7 +42,9 @@ export const SignInForm = ({ onSubmit }: SignInFormProps) => {
         onChangeText={formik.handleChange("password")}
         onBlur={formik.handleBlur("password")}
       />
-      <Button onPress={() => formik.handleSubmit()}>Sign in</Button>
+      <Button onPress={() => formik.handleSubmit()} variant="brand">
+        <Text>Sign in</Text>
+      </Button>
     </View>
   )
 }

@@ -1,5 +1,5 @@
 import { View, Image } from "react-native"
-import Text from "./Text"
+import { Text } from "@/components/ui/text"
 import StatItem from "./StatItem"
 import { RepositoryQuery, RepositoriesQuery } from "@/types"
 
@@ -29,11 +29,11 @@ const RepositoryItem = (props: RepositoryItemProps) => {
           source={{ uri: ownerAvatarUrl ?? "" }}
         />
         <View className="flex-1 items-start gap-y-2">
-          <Text type="primary" className="w-full">
+          <Text className="w-full" variant="subheading">
             {fullName}
           </Text>
-          <Text type="secondary">{description}</Text>
-          <Text type="tag">{language}</Text>
+          <Text variant="secondary">{description}</Text>
+          <Text className="bg-brand rounded px-2 text-white">{language}</Text>
         </View>
       </View>
       <View className="flex-row justify-around">

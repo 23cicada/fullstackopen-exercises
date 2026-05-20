@@ -1,10 +1,10 @@
 import { View } from "react-native"
 import * as yup from "yup"
 import { useFormik } from "formik"
-import TextInput from "../TextInput"
-import Button from "../Button"
-import useReview from "../../hooks/useReview"
-import Text from "../Text"
+import TextInput from "@/components/common/TextInput"
+import { Button } from "@/components/ui/button"
+import useReview from "@/hooks/useReview"
+import { Text } from "@/components/ui/text"
 import { ReviewFormValues } from "@/types"
 
 const validationSchema = yup.object().shape({
@@ -65,8 +65,10 @@ const ReviewForm = () => {
         multiline
         numberOfLines={4}
       />
-      <Button onPress={() => formik.handleSubmit()}>Create a review</Button>
-      {error && <Text className="text-error">{error}</Text>}
+      <Button onPress={() => formik.handleSubmit()} variant="brand">
+        <Text>Create a review</Text>
+      </Button>
+      {error && <Text variant="error">{error}</Text>}
     </View>
   )
 }

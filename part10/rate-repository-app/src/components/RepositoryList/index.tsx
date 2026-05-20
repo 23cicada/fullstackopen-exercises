@@ -1,7 +1,7 @@
 import { FlatList, Pressable } from "react-native"
-import RepositoryItem from "../RepositoryItem"
-import useRepositories from "../../hooks/useRepositories"
-import ItemSeparator from "../ItemSeparator"
+import RepositoryItem from "@/components/common/RepositoryItem"
+import useRepositories from "@/hooks/useRepositories"
+import ItemSeparator from "@/components/common/ItemSeparator"
 import { RepositoriesQuery } from "@/types"
 import { useNavigation } from "@react-navigation/native"
 

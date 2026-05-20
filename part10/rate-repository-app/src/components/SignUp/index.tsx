@@ -1,10 +1,10 @@
 import { View } from "react-native"
-import TextInput from "../TextInput"
-import Button from "../Button"
+import TextInput from "@/components/common/TextInput"
+import { Button } from "@/components/ui/button"
 import * as yup from "yup"
 import { useFormik } from "formik"
-import useSignUp from "../../hooks/useSignUp"
-import Text from "../Text"
+import useSignUp from "@/hooks/useSignUp"
+import { Text } from "@/components/ui/text"
 
 const validationSchema = yup.object({
   username: yup
@@ -65,8 +65,10 @@ const SignUp = () => {
           formik.errors.passwordConfirmation
         }
       />
-      <Button onPress={() => formik.handleSubmit()}>Sign up</Button>
-      {error && <Text className="text-error">{error}</Text>}
+      <Button onPress={() => formik.handleSubmit()} variant="brand">
+        <Text>Sign up</Text>
+      </Button>
+      {error && <Text variant="error">{error}</Text>}
     </View>
   )
 }

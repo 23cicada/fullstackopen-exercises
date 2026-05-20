@@ -1,6 +1,6 @@
 import { FlatList } from "react-native"
 import ReviewItem from "./ReviewItem"
-import ItemSeparator from "../ItemSeparator"
+import ItemSeparator from "@/components/common/ItemSeparator"
 import { Reviews } from "@/types"
 
 const ReviewList = ({ reviews }: { reviews?: Reviews }) => {

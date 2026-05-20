@@ -1,8 +1,9 @@
-import useRepository from "../../hooks/useRepository"
-import RepositoryItem from "../RepositoryItem"
+import useRepository from "@/hooks/useRepository"
+import RepositoryItem from "@/components/common/RepositoryItem"
 import * as Linking from "expo-linking"
 import ReviewList from "./ReviewList"
-import Button from "../Button"
+import { Button } from "@/components/ui/button"
+import { Text } from "@/components/ui/text"
 import { StaticScreenProps } from "@react-navigation/native"
 import { RootStackParamList } from "@/types"
 
@@ -17,10 +18,11 @@ const RepositoryView = ({
     <>
       <RepositoryItem {...repository}>
         <Button
+          variant="brand"
           className="mt-4"
           onPress={() => repository?.url && Linking.openURL(repository.url)}
         >
-          Open in GitHub
+          <Text>Open in GitHub</Text>
         </Button>
       </RepositoryItem>
       <ReviewList reviews={repository?.reviews} />
