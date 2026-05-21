@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "android": "expo run:android",
-    "android:proxy": "set HTTP_PROXY=https://127.0.0.1:7890 && set HTTPS_PROXY=https://127.0.0.1:7890 && npm run android",
+    "android:proxy": "set HTTP_PROXY=https://127.0.0.1:7897 && set HTTPS_PROXY=https://127.0.0.1:7897 && npm run android",
     "start": "expo start",
     "ios": "expo run:ios",
     "web": "expo start --web",
@@ -36,6 +36,7 @@
     "expo-dev-client": "~55.0.33",
     "expo-linking": "~55.0.15",
     "expo-status-bar": "~55.0.6",
+    "expo-updates": "~55.0.23",
     "formik": "^2.4.9",
     "graphql": "^16.14.0",
     "lucide-react-native": "^1.16.0",

@@ -1,18 +1,12 @@
-## Initializing the application
+# Rate Repository App
 
-```bash
-npx create-expo-app rate-repository-app --template blank@sdk-55
-```
+A mobile application for rating GitHub repositories. Users can browse GitHub-style repositories, view individual repository details and reviews, and create new reviews when signed in. The app is built with React Native and Expo, and it uses a GraphQL API as its backend. Created as part of Full Stack Open, part 10.
 
-```bash
-npx expo install react-native-web react-dom @expo/metro-runtime
-```
+## Try the App on Your Phone
 
-## Setting up the ESLint
+You can try the app on your phone by scanning the following QR code with Expo Go:
 
-```bash
-npx expo install react-native-web react-dom @expo/metro-runtime
-```
+![QR Code](./assets/image.png)
 
 ## Issues
 
@@ -22,4 +16,4 @@ npx expo install react-native-web react-dom @expo/metro-runtime
 
 [Repo: Navigation context error triggered by NativeWind shadow-\* toggle in Expo Router (Expo 53)](https://github.com/nativewind/nativewind/issues/1711)
 
-> [Error: Couldn't find a navigation context. Have you wrapped your app with 'NavigationContainer'?](https://github.com/expo/expo/issues/38191)
+[Error: Couldn't find a navigation context. Have you wrapped your app with 'NavigationContainer'?](https://github.com/expo/expo/issues/38191)

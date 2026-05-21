@@ -34,6 +34,17 @@
           "launchMode": "most-recent"
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "ce6a67d8-01e0-48d1-b4c2-8c361f2fcfff"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/ce6a67d8-01e0-48d1-b4c2-8c361f2fcfff"
+    }
   }
 }
