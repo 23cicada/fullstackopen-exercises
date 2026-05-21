@@ -9,6 +9,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { RootStackParamList } from "@/types"
 import { NAV_THEME } from "@/lib/theme"
 import { useColorScheme } from "react-native"
+import MyReviews from "./MyReviews"
 
 export const RootStack = createNativeStackNavigator<RootStackParamList>({
   initialRouteName: "RepositoryList",
@@ -22,6 +23,7 @@ export const RootStack = createNativeStackNavigator<RootStackParamList>({
     SignIn,
     ReviewForm,
     SignUp,
+    MyReviews,
   },
 })
 

@@ -24,6 +24,7 @@ type RootStackParamList = {
   SignIn: undefined
   ReviewForm: undefined
   SignUp: undefined
+  MyReviews: undefined
 }
 
 export {

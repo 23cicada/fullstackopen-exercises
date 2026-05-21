@@ -76,7 +76,7 @@ const buttonTextVariants = cva(
       variant: {
         default: "text-primary-foreground",
         brand: "text-white font-bold",
-        destructive: "text-white",
+        destructive: "text-white font-bold",
         outline: cn(
           "group-active:text-accent-foreground",
           Platform.select({ web: "group-hover:text-accent-foreground" }),

@@ -6,6 +6,8 @@ import {
   CreateReviewMutationVariables,
   CreateUserMutation,
   CreateUserMutationVariables,
+  DeleteReviewMutation,
+  DeleteReviewMutationVariables,
 } from "@/types"
 
 export const AUTHENTICATE: TypedDocumentNode<
@@ -42,5 +44,13 @@ export const CREATE_USER: TypedDocumentNode<
     createUser(user: $user) {
       username
     }
+  }
+`
+export const DELETE_REVIEW: TypedDocumentNode<
+  DeleteReviewMutation,
+  DeleteReviewMutationVariables
+> = gql`
+  mutation DeleteReview($deleteReviewId: ID!) {
+    deleteReview(id: $deleteReviewId)
   }
 `

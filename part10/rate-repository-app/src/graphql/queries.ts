@@ -1,5 +1,5 @@
 import { gql, TypedDocumentNode } from "@apollo/client"
-import { REPOSITORY_FRAGMENT } from "./fragments"
+import { REPOSITORY_FRAGMENT, REVIEW_FRAGMENT } from "./fragments"
 import {
   RepositoriesQuery,
   RepositoriesQueryVariables,
@@ -16,16 +16,26 @@ export const GET_REPOSITORIES: TypedDocumentNode<
     $orderDirection: OrderDirection
     $orderBy: AllRepositoriesOrderBy
     $searchKeyword: String
+    $first: Int
+    $after: String
   ) {
     repositories(
       orderDirection: $orderDirection
       orderBy: $orderBy
       searchKeyword: $searchKeyword
+      first: $first
+      after: $after
     ) {
       edges {
         node {
           ...RepositoryFragment
         }
+      }
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
       }
     }
   }
@@ -33,32 +43,39 @@ export const GET_REPOSITORIES: TypedDocumentNode<
 `
 
 export const ME: TypedDocumentNode<MeQuery> = gql`
-  query Me {
+  query Me($includeReviews: Boolean = false) {
     me {
       username
       id
+      reviews @include(if: $includeReviews) {
+        edges {
+          node {
+            ...ReviewFragment
+          }
+        }
+      }
     }
   }
+  ${REVIEW_FRAGMENT}
 `
 
 export const GET_REPOSITORY: TypedDocumentNode<
   RepositoryQuery,
   RepositoryQueryVariables
 > = gql`
-  query Repository($repositoryId: ID!) {
+  query Repository($repositoryId: ID!, $first: Int, $after: String) {
     repository(id: $repositoryId) {
       url
-      reviews {
+      reviews(first: $first, after: $after) {
+        pageInfo {
+          endCursor
+          hasNextPage
+          hasPreviousPage
+          startCursor
+        }
         edges {
           node {
-            id
-            createdAt
-            rating
-            text
-            user {
-              id
-              username
-            }
+            ...ReviewFragment
           }
         }
       }
@@ -66,4 +83,5 @@ export const GET_REPOSITORY: TypedDocumentNode<
     }
   }
   ${REPOSITORY_FRAGMENT}
+  ${REVIEW_FRAGMENT}
 `

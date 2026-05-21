@@ -2,7 +2,7 @@ import { View, ScrollView, StyleSheet } from "react-native"
 import Constants from "expo-constants"
 import { Link } from "@react-navigation/native"
 import { Text } from "@/components/ui/text"
-import useIsSigned from "@/hooks/useIsSigned"
+import useUser from "@/hooks/useUser"
 import useSignOut from "@/hooks/useSignOut"
 import { NativeStackHeaderProps } from "@react-navigation/native-stack"
 
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   },
 })
 const AppBar = (props: NativeStackHeaderProps) => {
-  const { isSigned } = useIsSigned()
+  const { isSigned } = useUser()
   const { signOut } = useSignOut()
   return (
     <View
@@ -33,6 +33,9 @@ const AppBar = (props: NativeStackHeaderProps) => {
             <Text onPress={signOut} style={styles.link}>
               Sign out
             </Text>
+            <Link screen="MyReviews" style={styles.link}>
+              My Reviews
+            </Link>
           </>
         ) : (
           <>

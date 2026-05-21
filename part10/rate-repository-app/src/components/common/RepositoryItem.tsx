@@ -2,12 +2,16 @@ import { View, Image } from "react-native"
 import { Text } from "@/components/ui/text"
 import StatItem from "./StatItem"
 import { RepositoryQuery, RepositoriesQuery } from "@/types"
+import { cn } from "@/utils"
 
 type RepositoryEntity =
   | NonNullable<RepositoryQuery["repository"]>
   | NonNullable<RepositoriesQuery["repositories"]>["edges"][number]["node"]
 
-type RepositoryItemProps = RepositoryEntity & { children?: React.ReactNode }
+type RepositoryItemProps = RepositoryEntity & {
+  children?: React.ReactNode
+  className?: string
+}
 
 const RepositoryItem = (props: RepositoryItemProps) => {
   const {
@@ -20,9 +24,10 @@ const RepositoryItem = (props: RepositoryItemProps) => {
     reviewCount,
     ownerAvatarUrl,
     children,
+    className,
   } = props
   return (
-    <View className="bg-white p-4" testID="repositoryItem">
+    <View className={cn("bg-white p-4", className)} testID="repositoryItem">
       <View className="mb-5 flex-row gap-x-5">
         <Image
           className="h-[50px] w-[50px] rounded-md"
@@ -33,7 +38,7 @@ const RepositoryItem = (props: RepositoryItemProps) => {
             {fullName}
           </Text>
           <Text variant="secondary">{description}</Text>
-          <Text className="bg-brand rounded px-2 text-white">{language}</Text>
+          <Text className="rounded bg-brand px-2 text-white">{language}</Text>
         </View>
       </View>
       <View className="flex-row justify-around">
