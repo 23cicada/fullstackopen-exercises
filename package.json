@@ -14,6 +14,7 @@
     "part6/unicafe-redux",
     "part6/redux-anecdotes",
     "part6-zustand/zustand-anecdotes",
-    "part6-zustand/unicafe-zustand"
+    "part6-zustand/unicafe-zustand",
+    "part7/routed-anecdotes"
   ]
 }
