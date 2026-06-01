@@ -1,11 +1,22 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import BlogForm from './BlogForm'
+import blogService from '../services/blogs'
+
+vi.mock('../services/blogs')
 
 describe('<BlogForm />', () => {
-  const mockSubmitHandler = vi.fn()
   beforeEach(() => {
-    render(<BlogForm onSubmit={mockSubmitHandler} />)
+    blogService.create = vi.fn().mockResolvedValue({})
+
+    render(
+      <MemoryRouter initialEntries={['/create']}>
+        <Routes>
+          <Route path="/create" element={<BlogForm notify={vi.fn()} />} />
+        </Routes>
+      </MemoryRouter>
+    )
   })
 
   test('form calls event handler with the correct details when a new blog is created', async () => {
@@ -19,16 +30,8 @@ describe('<BlogForm />', () => {
     await user.type(url, 'https://test.com')
 
     await user.click(button)
-    expect(mockSubmitHandler.mock.calls).toHaveLength(1)
-    const event = mockSubmitHandler.mock.calls[0][0]
-
-    const formData = {
-      title: event.target.elements.title.value,
-      author: event.target.elements.author.value,
-      url: event.target.elements.url.value
-    }
-
-    expect(formData).toEqual({
+    expect(blogService.create).toHaveBeenCalledTimes(1)
+    expect(blogService.create).toHaveBeenCalledWith({
       title: 'Test Blog Title',
       author: 'Test Blog Author',
       url: 'https://test.com'

@@ -1,47 +1,67 @@
 import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
+import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import Blog from './Blog'
+import blogService from '../services/blogs'
+
+vi.mock('../services/blogs')
+
+const blog = {
+  id: 'blog-1',
+  title: 'Test Blog',
+  author: 'Test Author',
+  url: 'https://test.com',
+  likes: 0,
+  user: { id: 'creator-id', name: 'Creator', username: 'creator' },
+}
+
+const renderBlog = (currentUser) =>
+  render(
+    <MemoryRouter initialEntries={[`/blogs/${blog.id}`]}>
+      <Routes>
+        <Route
+          path="/blogs/:id"
+          element={<Blog user={currentUser} notify={vi.fn()} />}
+        />
+      </Routes>
+    </MemoryRouter>
+  )
 
 describe('<Blog />', () => {
-  const mockUpdateHandler = vi.fn()
-
   beforeEach(() => {
-    const blog = {
-      title: 'Test Blog',
-      author: 'Test Author',
-      url: 'https://test.com',
-      likes: 0,
-    }
-    render(<Blog blog={blog} onUpdate={mockUpdateHandler} />)
+    blogService.getById = vi.fn().mockResolvedValue(blog)
   })
 
-  test('renders the blog\'s title and author', async () => {
-    screen.getByText('Test Blog', { exact: false })
-    screen.getByText('Test Author', { exact: false })
+  test('unauthenticated user sees blog info and likes but no buttons', async () => {
+    renderBlog(null)
 
-    const url = screen.queryByText('https://test.com')
-    const likes = screen.queryByText('likes 0')
+    expect(await screen.findByText('Test Blog')).toBeInTheDocument()
+    expect(screen.getByText('https://test.com')).toBeInTheDocument()
+    expect(screen.getByText(/likes 0/)).toBeInTheDocument()
+    expect(screen.getByText(/Test Author/)).toBeInTheDocument()
 
-    expect(url).toBeNull()
-    expect(likes).toBeNull()
+    expect(
+      screen.queryByRole('button', { name: 'like' })
+    ).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('button', { name: 'remove' })
+    ).not.toBeInTheDocument()
   })
 
-  test('renders the blog\'s url and likes when the button is clicked', async () => {
-    const user = userEvent.setup()
-    const button = screen.getByText('view')
-    await user.click(button)
+  test('authenticated non-creator only sees the like button', async () => {
+    renderBlog({ id: 'other-user-id', username: 'someone' })
 
-    screen.getByText('https://test.com')
-    screen.getByText('likes 0')
+    expect(await screen.findByText('Test Blog')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'like' })).toBeInTheDocument()
+    expect(
+      screen.queryByRole('button', { name: 'remove' })
+    ).not.toBeInTheDocument()
   })
 
-  test('Handler is called twice when the like button is clicked twice', async () => {
-    const user = userEvent.setup()
-    const viewButton = screen.getByText('view')
-    await user.click(viewButton)
-    const button = screen.getByText('like')
-    await user.click(button)
-    await user.click(button)
-    expect(mockUpdateHandler.mock.calls).toHaveLength(2)
+  test('blog creator sees both like and remove buttons', async () => {
+    renderBlog({ id: blog.user.id, username: 'creator' })
+
+    expect(await screen.findByText('Test Blog')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'like' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'remove' })).toBeInTheDocument()
   })
 })
