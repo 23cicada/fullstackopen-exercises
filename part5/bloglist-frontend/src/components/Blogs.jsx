@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import blogService from '../services/blogs'
 import { Link } from 'react-router-dom'
+import Typography from '@mui/material/Typography'
 
 const Blogs = () => {
   const [blogs, setBlogs] = useState([])
@@ -10,7 +11,7 @@ const Blogs = () => {
   }, [])
   return (
     <>
-      <h2>blogs</h2>
+      <Typography variant='h4'>blogs</Typography>
       <ul>
         {blogs
           .sort((a, b) => b.likes - a.likes)

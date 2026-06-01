@@ -1,6 +1,17 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import blogService from '../services/blogs'
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import Button from '@mui/material/Button'
+import Typography from '@mui/material/Typography'
+import styled from 'styled-components'
+
+const Actions = styled.div`
+  display: flex;
+  gap: 10px;
+  align-items: center;
+`
 
 const Blog = ({ user, notify }) => {
   const { id } = useParams()
@@ -30,15 +41,20 @@ const Blog = ({ user, notify }) => {
   if (blog === null) return null
 
   return (
-    <div>
-      <h2>{blog.title}</h2>
-      <a href={blog.url} target="_blank">{blog.url}</a>
-      <p>likes {blog.likes} {user && <button onClick={handleLike}>like</button>}</p>
-      <p>Added by {blog.author}</p>
-      {user && blog.user.id === user.id && (
-        <button onClick={handleRemove}>remove</button>
-      )}
-    </div>
+    <Card>
+      <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 1, alignItems: 'start' }}>
+        <Typography variant='h5'>{blog.title}</Typography>
+        <a href={blog.url} target="_blank">{blog.url}</a>
+        <Typography sx={{ color: 'text.secondary' }}>Added by {blog.author}</Typography>
+        <Actions>
+          <Typography variant='body1'>Likes {blog.likes}</Typography>
+          <Button variant='outlined' onClick={handleLike}>like</Button>
+          {user && blog.user.id === user.id && (
+            <Button variant='outlined' color="error" onClick={handleRemove}>remove</Button>
+          )}
+        </Actions>
+      </CardContent>
+    </Card>
   )
 }
 
