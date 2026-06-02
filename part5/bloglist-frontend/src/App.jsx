@@ -1,11 +1,6 @@
+import { lazy } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Container } from '@mui/material'
-import Blogs from './components/Blogs'
-import Login from './components/Login'
-import Blog from './components/Blog'
-import BlogForm from './components/BlogForm'
-import Users from './components/Users'
-import User from './components/User'
 import Alert from '@mui/material/Alert'
 import { ErrorBoundary, getErrorMessage } from 'react-error-boundary'
 import { useNotification } from './stores'
@@ -13,6 +8,13 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import Header from './components/Header'
 
 const queryClient = new QueryClient()
+
+const Blogs = lazy(() => import('./components/Blogs'))
+const Login = lazy(() => import('./components/Login'))
+const Blog = lazy(() => import('./components/Blog'))
+const BlogForm = lazy(() => import('./components/BlogForm'))
+const Users = lazy(() => import('./components/Users'))
+const User = lazy(() => import('./components/User'))
 
 const App = () => {
   const notification = useNotification()

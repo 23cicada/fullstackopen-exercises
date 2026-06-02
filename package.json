@@ -1,5 +1,10 @@
 {
   "name": "fullstackopen-exercises",
+  "scripts": {
+    "dev": "concurrently \"npm run dev --prefix part5/bloglist-frontend\" \"npm run dev --prefix part4/blog\"",
+    "build": "npm run build --prefix part5/bloglist-frontend",
+    "start": "cross-env NODE_ENV=production npm start --prefix part4/blog"
+  },
   "workspaces": [
     "part1/courseinfo",
     "part1/unicafe",
@@ -16,5 +21,9 @@
     "part6-zustand/zustand-anecdotes",
     "part6-zustand/unicafe-zustand",
     "part7/routed-anecdotes"
-  ]
+  ],
+  "devDependencies": {
+    "concurrently": "^10.0.3",
+    "cross-env": "^10.1.0"
+  }
 }
