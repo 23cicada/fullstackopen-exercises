@@ -3,12 +3,20 @@ const Blog = require('../models/blog')
 const middleware = require('../utils/middleware')
 
 blogRouter.get('/', async (request, response) => {
-  const blogs = await Blog.find({}).populate('user', { username: 1, name: 1, id: 1 })
+  const blogs = await Blog.find({}).populate('user', {
+    username: 1,
+    name: 1,
+    id: 1
+  })
   response.json(blogs)
 })
 
 blogRouter.get('/:id', async (request, response) => {
-  const blog = await Blog.findById(request.params.id).populate('user', { username: 1, name: 1, id: 1 })
+  const blog = await Blog.findById(request.params.id).populate('user', {
+    username: 1,
+    name: 1,
+    id: 1
+  })
   if (!blog) {
     return response.status(404).end()
   }
@@ -18,11 +26,6 @@ blogRouter.get('/:id', async (request, response) => {
 blogRouter.post('/', middleware.userExtractor, async (request, response) => {
   const { likes, ...rest } = request.body
   const user = request.user
-  if (!user) {
-    return response.status(400).json({
-      error: 'userId missing or not valid'
-    })
-  }
   const blog = new Blog({
     ...rest,
     likes: likes || 0,
@@ -35,16 +38,20 @@ blogRouter.post('/', middleware.userExtractor, async (request, response) => {
   response.status(201).json(result)
 })
 
-blogRouter.delete('/:id', middleware.userExtractor, async (request, response) => {
-  const blog = await Blog.findById(request.params.id)
-  if (blog.user?.toString() !== request.user.id) {
-    return response.status(403).json({ error: 'permission denied' })
+blogRouter.delete(
+  '/:id',
+  middleware.userExtractor,
+  async (request, response) => {
+    const blog = await Blog.findById(request.params.id)
+    if (blog.user?.toString() !== request.user.id) {
+      return response.status(403).json({ error: 'permission denied' })
+    }
+    await Blog.deleteOne({ _id: request.params.id })
+    response.status(204).end()
   }
-  await Blog.deleteOne({ _id: request.params.id })
-  response.status(204).end()
-})
+)
 
-blogRouter.put('/:id', async (request, response) => {
+blogRouter.put('/:id', middleware.userExtractor, async (request, response) => {
   const { title, author, url, likes } = request.body
   const { id } = request.params
   const blog = await Blog.findById(id)
@@ -56,7 +63,11 @@ blogRouter.put('/:id', async (request, response) => {
   blog.url = url
   blog.likes = likes
   let updatedBlog = await blog.save()
-  updatedBlog = await updatedBlog.populate('user', { username: 1, name: 1, id: 1 })
+  updatedBlog = await updatedBlog.populate('user', {
+    username: 1,
+    name: 1,
+    id: 1
+  })
   response.json(updatedBlog)
 })
 

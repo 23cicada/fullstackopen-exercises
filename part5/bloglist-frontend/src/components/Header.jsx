@@ -20,6 +20,9 @@ const Header = () => {
         </Button>
         {user ? (
           <>
+            <Button component={Link} to="/users" color="inherit">
+              Users
+            </Button>
             <Button component={Link} to="/create" color="inherit">
               new blog
             </Button>

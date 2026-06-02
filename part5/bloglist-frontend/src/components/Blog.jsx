@@ -8,6 +8,7 @@ import useUpdateBlog from '../hooks/useUpdateBlog'
 import useDeleteBlog from '../hooks/useDeleteBlog'
 import { useUser } from '../stores'
 import useQueryBlog from '../hooks/useQueryBlog'
+import Comments from './Comments'
 
 const Actions = styled.div`
   display: flex;
@@ -43,24 +44,27 @@ const Blog = () => {
         </Typography>
         <Actions>
           <Typography variant="body1">Likes {blog.likes}</Typography>
-          <Button
-            loading={updateLoading}
-            variant="outlined"
-            onClick={() => handleLike(blog)}
-          >
-            like
-          </Button>
           {user && blog.user.id === user.id && (
-            <Button
-              loading={deleteLoading}
-              variant="outlined"
-              color="error"
-              onClick={() => handleDelete(blog.id)}
-            >
-              remove
-            </Button>
+            <>
+              <Button
+                loading={updateLoading}
+                variant="outlined"
+                onClick={() => handleLike(blog)}
+              >
+                like
+              </Button>
+              <Button
+                loading={deleteLoading}
+                variant="outlined"
+                color="error"
+                onClick={() => handleDelete(blog.id)}
+              >
+                remove
+              </Button>
+            </>
           )}
         </Actions>
+        {user && <Comments id={id} />}
       </CardContent>
     </Card>
   )

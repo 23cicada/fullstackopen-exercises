@@ -4,6 +4,8 @@ import Blogs from './components/Blogs'
 import Login from './components/Login'
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
+import Users from './components/Users'
+import User from './components/User'
 import Alert from '@mui/material/Alert'
 import { ErrorBoundary, getErrorMessage } from 'react-error-boundary'
 import { useNotification } from './stores'
@@ -38,6 +40,8 @@ const App = () => {
               <Route path="/login" element={<Login />} />
               <Route path="/blogs/:id" element={<Blog />} />
               <Route path="/create" element={<BlogForm />} />
+              <Route path="/users" element={<Users />} />
+              <Route path="/users/:id" element={<User />} />
               <Route path="*" element={<div>404 - Page not found</div>} />
             </Routes>
           </ErrorBoundary>
