@@ -11,7 +11,7 @@ const blog = {
   author: 'Test Author',
   url: 'https://test.com',
   likes: 0,
-  user: { id: 'creator-id', name: 'Creator', username: 'creator' },
+  user: { id: 'creator-id', name: 'Creator', username: 'creator' }
 }
 
 const renderBlog = (currentUser) =>

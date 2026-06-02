@@ -4,7 +4,7 @@ const useNotification = () => {
   const setTimeoutId = useRef(null)
   const [notification, setNotification] = useState({
     message: null,
-    type: null,
+    type: null
   })
 
   const notify = (message, type = 'success') => {

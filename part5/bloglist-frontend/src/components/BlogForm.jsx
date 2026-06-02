@@ -1,46 +1,40 @@
-import { useState } from 'react'
-import blogService from '../services/blogs'
-import { useNavigate } from 'react-router-dom'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import styled from 'styled-components'
 import Typography from '@mui/material/Typography'
+import useCreateBlog from '../hooks/useCreateBlog'
+import useField from '../hooks/useField'
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 10px;
 `
-const BlogForm = ({ notify }) => {
-  const navigate = useNavigate()
-  const [loading, setLoading] = useState(false)
-  const handleCreateBlog = async (event) => {
-    event.preventDefault()
-    const { title, author, url } = event.target.elements
-    const blog = {
-      title: title.value,
-      author: author.value,
-      url: url.value,
-    }
-    setLoading(true)
-    try {
-      await blogService.create(blog)
-      notify('Blog created successfully')
-      navigate('/')
-    } catch (error) {
-      notify(error.response.data.error, 'error')
-    } finally {
-      setLoading(false)
-    }
-  }
+const BlogForm = () => {
+  const { handleCreateBlog, isLoading } = useCreateBlog()
+  const title = useField()
+  const author = useField()
+  const url = useField()
 
   return (
-    <Form onSubmit={handleCreateBlog}>
-      <Typography variant='h4'>Create new</Typography>
-      <TextField label="Title" variant="outlined" name="title" />
-      <TextField label="Author" variant="outlined" name="author" />
-      <TextField label="Url" variant="outlined" name="url" />
-      <Button variant="contained" type="submit" loading={loading}>create</Button>
+    <Form
+      onSubmit={(event) => {
+        event.preventDefault()
+        const blog = {
+          title: title.value,
+          author: author.value,
+          url: url.value
+        }
+        handleCreateBlog(blog)
+      }}
+    >
+      <Typography variant="h4">Create new</Typography>
+      <TextField label="Title" variant="outlined" {...title} />
+      <TextField label="Author" variant="outlined" {...author} />
+      <TextField label="Url" variant="outlined" {...url} />
+      <Button variant="contained" type="submit" loading={isLoading}>
+        create
+      </Button>
     </Form>
   )
 }

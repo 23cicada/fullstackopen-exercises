@@ -1,17 +1,14 @@
-import { useState, useEffect } from 'react'
-import blogService from '../services/blogs'
 import { Link } from 'react-router-dom'
 import Typography from '@mui/material/Typography'
+import useQueryBlogs from '../hooks/useQueryBlogs'
 
 const Blogs = () => {
-  const [blogs, setBlogs] = useState([])
+  const { data: blogs = [], isLoading } = useQueryBlogs()
 
-  useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs))
-  }, [])
   return (
     <>
-      <Typography variant='h4'>blogs</Typography>
+      <Typography variant="h4">blogs</Typography>
+      {isLoading && <div>Loading...</div>}
       <ul>
         {blogs
           .sort((a, b) => b.likes - a.likes)
