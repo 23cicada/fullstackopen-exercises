@@ -1,31 +1,25 @@
 import { useBooks } from "../hooks"
+import { useState } from "react"
+import GenreFilter from "./GenreFilter"
+import BooksTable from "./BooksTable"
 
-const Books = (props) => {
-  const { books } = useBooks()
-  if (!props.show) {
-    return null
-  }
+const Books = () => {
+  const [genre, setGenre] = useState()
+  const { books, loading } = useBooks({ genre })
 
   return (
     <div>
       <h2>books</h2>
+      {loading ? (
+        <p>loading...</p>
+      ) : (
+        <>
+          {genre && <p>in genre {genre}</p>}
 
-      <table>
-        <tbody>
-          <tr>
-            <th></th>
-            <th>author</th>
-            <th>published</th>
-          </tr>
-          {books.map(({ id, title, author, published }) => (
-            <tr key={id}>
-              <td>{title}</td>
-              <td>{author.name}</td>
-              <td>{published}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+          <BooksTable books={books} />
+          <GenreFilter value={genre} onChange={setGenre} />
+        </>
+      )}
     </div>
   )
 }

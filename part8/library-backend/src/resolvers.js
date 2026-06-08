@@ -128,6 +128,7 @@ const resolvers = {
     },
     allAuthors: async () => await Author.find({}),
     me: (_, __, { user }) => user,
+    allGenres: async () => await Genre.find({}),
   },
   User: {
     favoriteGenre: async ({ favoriteGenre }) => favoriteGenre,
@@ -172,7 +173,12 @@ const resolvers = {
           const authorId = await Author.findOneAndUpdate(
             { name: authorName },
             { $setOnInsert: { name: authorName } },
-            { upsert: true, new: true, session, runValidators: true },
+            {
+              upsert: true,
+              returnDocument: "after",
+              session,
+              runValidators: true,
+            },
           ).select("_id")
 
           const book = new Book({
@@ -201,7 +207,7 @@ const resolvers = {
       return await Author.findOneAndUpdate(
         { name },
         { born: setBornTo },
-        { new: true },
+        { returnDocument: "after" },
       )
     },
     createUser: async (_, args) => {
@@ -211,7 +217,12 @@ const resolvers = {
         const genreId = await Genre.findOneAndUpdate(
           { name: favoriteGenre },
           { $setOnInsert: { name: favoriteGenre } },
-          { upsert: true, new: true, session, runValidators: true },
+          {
+            upsert: true,
+            returnDocument: "after",
+            session,
+            runValidators: true,
+          },
         ).select("_id")
         const user = new User({ username, favoriteGenre: genreId })
         await user.save({ session })
