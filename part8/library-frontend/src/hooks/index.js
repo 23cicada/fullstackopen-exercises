@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from "@apollo/client/react"
+import { useQuery, useMutation, useSubscription, useApolloClient } from "@apollo/client/react"
 import {
   ALL_AUTHORS,
   ALL_BOOKS,
@@ -7,6 +7,7 @@ import {
   LOGIN,
   ALL_GENRES,
   ME,
+  BOOK_ADDED
 } from "../queries"
 
 const useAuthors = () => {
@@ -89,6 +90,22 @@ const useMe = () => {
   }
 }
 
+const useBookAdded = (callback) => {
+  const client = useApolloClient()
+  useSubscription(BOOK_ADDED, {
+    onData: ({ data }) => {
+      callback(data.data.bookAdded)
+      client.refetchQueries({
+        updateCache: cache => {
+          cache.evict({ fieldName: "allBooks" })
+          cache.evict({ fieldName: "allGenres" })
+          cache.evict({ fieldName: "allAuthors" })
+        }
+      })
+    }
+  })
+}
+
 export {
   useAuthors,
   useBooks,
@@ -97,4 +114,5 @@ export {
   useLogin,
   useGenres,
   useMe,
+  useBookAdded
 }

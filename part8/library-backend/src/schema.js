@@ -1,50 +1,18 @@
-const typeDefs = /* GraphQL */ `
-  type Book {
-    title: String!
-    published: Int!
-    author: Author!
-    genres: [Genre!]!
-    id: ID!
-  }
-  type Genre {
-    name: String!
-    id: ID!
-  }
-  type Author {
-    name: String!
-    born: Int
-    id: ID!
-    bookCount: Int
-  }
-  type User {
-    username: String!
-    favoriteGenre: Genre!
-    id: ID!
-  }
-  type Token {
-    value: String!
-  }
+const { typeDefs: authorTypeDefs } = require("./schema/author")
+const { typeDefs: bookTypeDefs } = require("./schema/book")
+const { typeDefs: genreTypeDefs } = require("./schema/genre")
+const { typeDefs: userTypeDefs } = require("./schema/user")
 
+const typeDefs = /* GraphQL */ `
   type Query {
-    bookCount: Int!
-    authorCount: Int!
-    allBooks(author: String, genre: String): [Book!]!
-    allAuthors: [Author!]!
-    me: User
-    allGenres: [Genre!]!
+    _empty: String
   }
   type Mutation {
-    addBook(
-      title: String!
-      published: Int!
-      author: String!
-      genres: [String!]!
-    ): Book
-    editAuthor(name: String!, setBornTo: Int!): Author
-    createUser(username: String!, favoriteGenre: String!): User
-    login(username: String!, password: String!): Token
     _resetDatabase: Boolean
+  }
+  type Subscription {
+    _empty: String
   }
 `
 
-module.exports = typeDefs
+module.exports = [typeDefs, authorTypeDefs, bookTypeDefs, genreTypeDefs, userTypeDefs]
