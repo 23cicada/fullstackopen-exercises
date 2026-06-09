@@ -5,14 +5,20 @@ const { typeDefs: userTypeDefs } = require("./schema/user")
 
 const typeDefs = /* GraphQL */ `
   type Query {
-    _empty: String
+    _empty: Boolean
   }
   type Mutation {
     _resetDatabase: Boolean
   }
   type Subscription {
-    _empty: String
+    _empty: Boolean
   }
 `
 
-module.exports = [typeDefs, authorTypeDefs, bookTypeDefs, genreTypeDefs, userTypeDefs]
+module.exports = [
+  typeDefs,
+  authorTypeDefs,
+  bookTypeDefs,
+  genreTypeDefs,
+  userTypeDefs,
+]
