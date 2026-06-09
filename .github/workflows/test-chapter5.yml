@@ -32,9 +32,8 @@ jobs:
       - name: Install Playwright browsers
         working-directory: part8/tests-chapter5
         run: |
-          npx playwright install chromium
-          sudo apt-get update
-          sudo apt-get install -y libnss3 libatk-bridge2.0-0 libdrm2 libxcomposite1 libxdamage1 libxrandr2 libgbm1
+          sudo apt-get --yes remove --purge man-db
+          npx playwright install chromium --with-deps
 
       - name: Run E2E tests
         working-directory: part8/tests-chapter5
