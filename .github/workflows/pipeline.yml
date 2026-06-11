@@ -21,3 +21,11 @@ jobs:
       - name: Check style
         working-directory: part11/fs-pokedex-main
         run: npm run eslint
+
+      - name: Run npm test
+        working-directory: part11/fs-pokedex-main
+        run: npm test
+
+      - name: Run npm build
+        working-directory: part11/fs-pokedex-main
+        run: npm run build
