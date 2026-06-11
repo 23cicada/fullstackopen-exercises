@@ -5,9 +5,9 @@ const app = express()
 const PORT = process.env.PORT || 5001
 
 app.use(express.static('dist'))
-app.get('/health', () => {
-  throw new Error('test error')
-  // res.send('ok')
+app.get('/health', (_, res) => {
+  // throw new Error('test error')
+  res.send('ok')
 })
 
 const start = async () => {
