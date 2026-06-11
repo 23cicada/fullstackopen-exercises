@@ -1,0 +1,23 @@
+name: Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deployment_pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+        node-version: 24
+
+      - name: Install dependencies
+        working-directory: part11/fs-pokedex-main
+        run: npm install
+
+      - name: Check style
+        working-directory: part11/fs-pokedex-main
+        run: npm run eslint
