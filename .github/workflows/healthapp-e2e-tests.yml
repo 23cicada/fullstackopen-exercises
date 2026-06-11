@@ -1,6 +1,6 @@
 name: Health app E2E Tests
 
-# on:
+on:
 #   push:
 #     branches: [main, master]
 

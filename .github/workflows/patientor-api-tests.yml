@@ -1,6 +1,6 @@
 name: Patientor API Tests
 
-# on:
+on:
 #   push:
 #     branches: [ main, master ]
 
