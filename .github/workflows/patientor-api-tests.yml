@@ -3,6 +3,7 @@ name: Patientor API Tests
 on:
 #   push:
 #     branches: [ main, master ]
+  workflow_dispatch:
 
 jobs:
   test:

@@ -3,6 +3,7 @@ name: Health app E2E Tests
 on:
 #   push:
 #     branches: [main, master]
+  workflow_dispatch:
 
 jobs:
   test:
