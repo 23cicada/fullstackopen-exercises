@@ -14,6 +14,9 @@ primary_region = 'lax'
 [processes]
   app = "node app.js"
 
+[deploy]
+  strategy = "bluegreen"
+
 [http_service]
   internal_port = 5001
   force_https = true
@@ -27,3 +30,10 @@ primary_region = 'lax'
   cpu_kind = 'shared'
   cpus = 1
   memory_mb = 1024
+
+[[http_service.checks]]
+  grace_period = "10s"
+  interval = "30s"
+  method = "GET"
+  timeout = "5s"
+  path = "/"
