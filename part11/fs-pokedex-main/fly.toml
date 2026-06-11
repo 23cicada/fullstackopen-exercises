@@ -36,4 +36,4 @@ primary_region = 'lax'
   interval = "30s"
   method = "GET"
   timeout = "5s"
-  path = "/"
+  path = "/health"
