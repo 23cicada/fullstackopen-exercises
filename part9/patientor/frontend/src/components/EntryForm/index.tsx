@@ -208,7 +208,7 @@ const EntryForm = ({ diagnoses, onAddEntry }: EntryFormProps) => {
         </FormControl>
 
         <Box sx={{ display: 'flex', gap: 1 }}>
-          <Button type="submit" variant="contained" color="primary">Add</Button>
+          <Button type="submit" variant="contained" color="primary">Add New Entry</Button>
           <Button type="button" variant="contained" color="error" onClick={handleCancel}>Cancel</Button>
         </Box>
       </form>
