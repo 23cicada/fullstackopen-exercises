@@ -1,0 +1,14 @@
+name: Periodic Health Check
+
+on:
+  workflow_dispatch:
+
+jobs:
+  health_check:
+    steps:
+      - name: URL Health Check
+        uses: jtalk/url-health-check-action@v5
+        with:
+          url: https://fs-pokedex-main-gentle-wind-6649.fly.dev/health
+
+
