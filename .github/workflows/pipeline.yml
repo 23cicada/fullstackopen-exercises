@@ -9,7 +9,7 @@ on:
     types: [opened, synchronize]
 
 jobs:
-  ci_pipeline:
+  build_and_test:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -41,9 +41,9 @@ jobs:
 
       - run: npm run build
 
-  deploy_pipeline:
+  deploy:
     if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message), '#skip') }}
-    needs: [ci_pipeline]
+    needs: [build_and_test]
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -56,7 +56,7 @@ jobs:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
   tag_release:
-    needs: [deploy_pipeline]
+    needs: [deploy]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
