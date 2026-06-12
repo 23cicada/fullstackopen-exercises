@@ -51,7 +51,7 @@ jobs:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
   tag_release:
-    if: ${{ github.event_name == "push" }}
+    if: ${{ github.event_name == 'push' }}
     needs: [deployment_pipeline]
     runs-on: ubuntu-latest
     steps:
