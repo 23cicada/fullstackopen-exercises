@@ -48,7 +48,7 @@ jobs:
       - run: npm run build
 
   deploy_pipeline:
-    needs: [check_deploy_condition]
+    needs: [check_deploy_condition, deployment_pipeline]
     runs-on: ubuntu-latest
     defaults:
       run:
