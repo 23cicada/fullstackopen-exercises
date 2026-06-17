@@ -1,4 +1,21 @@
 services:
+  express-server:
+    image: express-server-dev
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+    volumes:
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules
+
+    ports:
+      - 3000:3001
+    environment:
+      PORT: 3001
+      MONGO_URL: mongodb://root:example@mongo:27017/the_database?authSource=admin
+      REDIS_URL: redis://redis:6379
+    container_name: express-server-dev
+
   mongo:
     image: mongo
     ports:
@@ -10,6 +27,7 @@ services:
     volumes:
       - ./mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
       - ./mongo_data:/data/db
+    container_name: mongo
 
   redis:
     image: redis
@@ -18,4 +36,5 @@ services:
     command: ['redis-server', '--appendonly', 'yes']
     volumes:
       - ./redis_data:/data
+    container_name: redis
 
